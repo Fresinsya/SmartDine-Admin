@@ -29,14 +29,14 @@ const Navbar = () => {
                     <GoHomeFill size={20}/>
                 </a>
                 <a
-                    href="/"
+                    href="/menu"
                     onClick={() => setActiveNav("/")}
                     className={activeNav === "/" ? "active" : ""}
                 >
                     <MdRestaurant size={20}/>
                 </a>
                 <a
-                    href="/"
+                    href="/quiz"
                     onClick={() => setActiveNav("/")}
                     className={activeNav === "/" ? "active" : ""}
                 >
@@ -46,7 +46,7 @@ const Navbar = () => {
             </div>
             <div className="h-[40%] flex flex-col justify-center gap-7">
                 <a
-                    href="/"
+                    href="/profile"
                     onClick={() => setActiveNav("/")}
                     className={activeNav === "/" ? "active" : ""}
                 >
@@ -61,49 +61,8 @@ const Navbar = () => {
                 </a>
 
             </div>
-            {/* <a
-                href="#about"
-                onClick={() => setActiveNav("#about")}
-                className={activeNav === "#about" ? "active" : ""}
-            >
-                <AiOutlineUser />
-            </a>
-            <a
-                href="#experience"
-                onClick={() => setActiveNav("#experience")}
-                className={activeNav === "#experience" ? "active" : ""}
-            >
-                <BiBook />
-            </a>
-            <a
-                href="#services"
-                onClick={() => setActiveNav("#services")}
-                className={activeNav === "#services" ? "active" : ""}
-            >
-                <RiServiceLine />
-            </a>
-            <a
-                href="#contact"
-                onClick={() => setActiveNav("#contact")}
-                className={activeNav === "#contact" ? "active" : ""}
-            >
-                <BiMessageSquareDetail />
-            </a> */}
         </nav>
-        // <div className="w-20 h-screen text-white fixed flex flex-col justify-evenly items-center">
-        //     <div className="h-[15%] flex flex-col justify-center">
-        //         <TiThMenu size={20} />
-        //     </div>
-        //     <div className="h-[50%] flex flex-col justify-center gap-12">
-        //         <GoHomeFill size={20} />
-        //         <MdRestaurant size={20} />
-        //         <MdQuiz size={20} />
-        //     </div>
-        //     <div className="h-[40%] flex flex-col justify-center gap-7">
-        //         <FaUser size={20} />
-        //         <LuLogOut size={20} />
-        //     </div>
-        // </div>
+        
     )
 }
 

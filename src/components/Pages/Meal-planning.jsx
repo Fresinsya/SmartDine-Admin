@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { PiBowlFoodFill } from "react-icons/pi";
-import Navbar from '../components/Navbar';
-import { GiChickenOven } from "react-icons/gi";
-import { GiShinyApple } from "react-icons/gi";
-import { GiBroccoli } from "react-icons/gi";
-import Quiz from './quiz';
+import Navbar from '../Fragments/Navbar';
 import { Link } from 'react-router-dom';
-import meal from './Meal-planning';
+
 
 class Meal extends Component {
     render() {
@@ -34,10 +29,10 @@ class Meal extends Component {
                         <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div>
                         {/* <h1 className="font-bold text-lg ml-14 mb-4">List Menu Makanan</h1> */}
 
-                        <div className="container ml-[50px] bg-blue-300 mt-20 w-[85%] h-40 flex justify-center rounded-3xl">
+                        <div className="container ml-[50px] bg-blue-300 mt-8 w-[85%] h-40 flex justify-center rounded-3xl">
                             <Slider {...settings} className='z-20 w-[90%] h-40 flex justify-center items-center'>
                                 <div className='border-x-[30px] border-transparent'>
-                                    <button type='button' className='border-2 w-32 rounded-3xl p-4 border-primary flex item-center justify-center bg-white'>Senin</button>
+                                    <button type='button' className='border-2 w-32 rounded-3xl p-4 border-primary active:bg-primary active:text-white flex item-center justify-center bg-white'>Senin</button>
                                 </div>
                                 <div className='border-x-[30px] border-transparent'>
                                     <button type='button' className='border-2 w-32 rounded-3xl p-4 border-primary flex item-center justify-center bg-white'>Selasa</button>
@@ -60,8 +55,30 @@ class Meal extends Component {
                             </Slider>
 
                         </div>
-                        <div className='border-primary border-4 rounded-2xl mt-20 ml-[90px] w-[80%] h-80'>
-                            <p className='bg-primary px-4 py-3 w-10'>senin</p>
+                        {/*body*/}
+                        <h1 className='mt-7 ml-44'>Detail Menu Harian</h1>
+                        <div className='border-primary border-4 rounded-2xl mt-5 ml-[180px] w-[60%] h-72'>
+                            <p className='border-2 w-32 rounded-3xl p-2 m-9 border-b-primary border-l-primary font-bold flex item-center justify-center bg-white'>senin</p>
+                            <div className='flex justify-center gap-10 z-auto'>
+                                <div className='z-30'>
+                                    <p className='ml-8'>Breakfast</p>
+                                    <Link to='/detail' >
+                                        <button type='button' className='border-2 w-32 rounded-3xl p-4 border-primary bg-primary flex item-center justify-center text-white'>Oatmeal</button>
+                                    </Link>
+                                </div>
+                                <div className='z-30'>
+                                    <p className='ml-8'>Breakfast</p>
+                                    <Link to='/detail' >
+                                        <button type='button' className='border-2 w-32 rounded-3xl p-4 border-primary bg-primary flex item-center justify-center text-white'>Oatmeal</button>
+                                    </Link>
+                                </div>
+                                <div className='z-30'>
+                                    <p className='ml-8'>Breakfast</p>
+                                    <Link to='/detail' >
+                                        <button type='button' className='border-2 w-32 rounded-3xl p-4 border-primary bg-primary flex item-center justify-center text-white'>Oatmeal</button>
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

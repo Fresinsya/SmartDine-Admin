@@ -5,6 +5,7 @@ import { MdRestaurant } from "react-icons/md";
 import { MdQuiz } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
+import Navbar from "../Fragments/Navbar";
 
 import { Line, Chart } from "react-chartjs-2";
 import {
@@ -56,20 +57,7 @@ const Home = () => {
   };
   return (
     <div className="flex bg-primary h-auto ">
-      <div className="w-20 h-screen text-white fixed flex flex-col justify-evenly items-center">
-        <div className="h-[15%] flex flex-col justify-center">
-          <TiThMenu size={20} />
-        </div>
-        <div className="h-[50%] flex flex-col justify-center gap-12">
-          <GoHomeFill size={20} />
-          <MdRestaurant size={20} />
-          <MdQuiz size={20} />
-        </div>
-        <div className="h-[40%] flex flex-col justify-center gap-7">
-          <FaUser size={20} />
-          <LuLogOut size={20} />
-        </div>
-      </div>
+      <Navbar />
       <div className="flex-grow bg-white relative ml-20 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
         <div className="bg-white p-3 rounded-4xl">
           <h1 className="font-bold text-2xl ml-6">DASHBOARD</h1>
