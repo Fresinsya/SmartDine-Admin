@@ -1,40 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../elements/input/Input';
-import Sukses from '../elements/button/Sukses';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { CgDanger } from "react-icons/cg";
 
 const Register = () => {
-  const [nama, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [redirecting, setRedirecting] = useState(false);
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [showModalGagal, setShowModalGagal] = useState(false);
+  const [showNotificationSukses, setShowNotificationSukses] = useState(false);
+  const [showNotificationGagal, setShowNotificationGagal] = useState(false);
 
   const handleSukses = (event) => {
-    // event.preventDefault();
-    localStorage.setItem("nama", event.target.nama.value);
-    localStorage.setItem("username", event.target.username.value);
-    localStorage.setItem("password", event.target.password.value);
-    resetInputValues();
-    setRedirecting(true);
-    navigate('/login');
-  };
-
-  const resetInputValues = () => {
-    setName('');
-    setUsername('');
-    setPassword('');
+    console.log(event.target.nama.value, event.target.username.value, event.target.password.value);
+    event.preventDefault();
+    if (event.target.nama.value && event.target.username.value && event.target.password.value) {
+      localStorage.setItem("nama", event.target.nama.value);
+      localStorage.setItem("username", event.target.username.value);
+      localStorage.setItem("password", event.target.password.value);
+      setShowNotificationSukses(true);
+      setShowModal(true);
+      setRedirecting(true);
+      event.target.nama.value = '';
+      event.target.username.value = '';
+    } else {
+      setShowNotificationGagal(true);
+      setShowModalGagal(true);
+    }
   };
 
   useEffect(() => {
-    if (redirecting) {
-      const redirectTimer = setTimeout(() => {
-        // Navigate('/login');
-        window.location.href = "/login";
-      }, 2000);
-      return () => clearTimeout(redirectTimer);
+    let timeout;
+    if (showNotificationSukses) {
+      timeout = setTimeout(() => {
+        setShowNotificationSukses(false);
+        setTimeout(() => {
+          if (redirecting) {
+            window.location.href = "/login";
+          }
+        }, 1000);
+      }, 1000);
     }
-  }, [redirecting]);
+    
+    return () => clearTimeout(timeout);
+  }, [showNotificationSukses, redirecting]);
+
+  useEffect(() => {
+    let timeout;
+    if (showNotificationGagal) {
+      timeout = setTimeout(() => {
+        setShowNotificationGagal(false);
+      }, 1000);
+    }
+    
+    return () => clearTimeout(timeout);
+  }, [showNotificationGagal]);
 
   return (
     <div className="bg-primary w-full h-screen overflow-x-hidden">
@@ -45,19 +63,52 @@ const Register = () => {
             <h3>Silakan isi detail Anda untuk membuat akun.</h3>
           </div>
           <div className="grid md:grid-cols-1 items-center mx-16 mb-16 mt-7 gap-7">
-            <Input tipe="text" id="nama" placeholder="Anastasia" title="Nama" required value={nama} onChange={(e) => setName(e.target.value)} />
-            <Input tipe="text" id="username" placeholder="anastasia@gmail.com" title="Username" required value={username} onChange={(e) => setUsername(e.target.value)} />
-            <Input tipe="password" id="password" placeholder="********" title="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Input tipe="text" id="nama" placeholder="Anastasia" title="Nama" required />
+            <Input tipe="text" id="username" placeholder="anastasia@gmail.com" title="Username" required />
+            <Input tipe="password" id="password" placeholder="********" title="Password" required />
+
             <div className='flex items-center gap-6 ml-16 mt-2 justify-end'>
-              <button type="submit"> <Sukses title='Register Akun' /></button>
+              <button
+                className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-2 text-white z-20 font-bold text-sm px-4 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none'
+                type="submit"
+              >
+                Registrasi Akun
+              </button>
+              {showModal && (
+                <div className='absolute z-50'>
+                  {showNotificationSukses && (
+                    <div className="flex fixed z-50 top-5 overlay right-[400px] p-4 mb-4 text-sm text-white border border-green-500 rounded-full bg-green-500 dark:bg-gray-800 dark:text-white dark:border-green-500" role="alert">
+                      <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                      </svg>
+                      <span className="sr-only">Registrasi berhasil!</span>
+                      <div>
+                        <span className="font-medium">Anda dapat melanjutkan ke halaman login sekarang.</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {showModalGagal && (
+                <div className='absolute z-50'>
+                  {showNotificationGagal && (
+                    <div class="flex fixed z-50 top-5 overlay right-0 p-4 mb-4 text-sm text-white border border-green-500 rounded-full bg-green-500 dark:bg-gray-800 dark:text-white dark:border-green-500" role="alert">
+                      <CgDanger className='text-2xl' />
+                      <div>
+                        <span class="font-medium">Harap isi kolom email dan password sebelum melanjutkan.</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </form>
       </div>
       <div className='absolute w-[8%] mt-[68px] -rotate-90 flex justify-center ml-[226px]'>
-        <img src="sudut.png" alt="" className=' rounded-3xl' />
+        <img src="sudut.png" alt="" className='rounded-3xl' />
       </div>
-      <img src="login.jpg" alt="" className='w-[65%] my-20 mx-auto  rounded-3xl h-[75%]' />
+      <img src="login.jpg" alt="" className='w-[65%] my-20 mx-auto rounded-3xl h-[75%]' />
     </div>
   )
 }
