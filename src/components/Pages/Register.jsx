@@ -42,7 +42,7 @@ const Register = () => {
   const handleChange = (event) => {
     setUser({
       ...user,
-      [event.target.nama]: event.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
