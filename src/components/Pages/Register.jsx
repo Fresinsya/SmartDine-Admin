@@ -4,7 +4,7 @@ import { CgDanger } from "react-icons/cg";
 import { useMutation } from 'react-query';
 
 const postRegister = async (user) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/register`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const Register = () => {
   const handleChange = (event) => {
     setUser({
       ...user,
-      [event.target.name]: event.target.value,
+      [event.target.nama]: event.target.value,
     });
   }
 
@@ -69,7 +69,7 @@ const Register = () => {
         setShowNotificationSukses(false);
         setTimeout(() => {
           if (redirecting) {
-            window.location.href = "/login";
+            // window.location.href = "/login";
           }
         }, 1000);
       }, 2000);
