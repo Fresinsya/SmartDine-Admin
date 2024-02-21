@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { PiBowlFoodFill } from "react-icons/pi";
@@ -12,16 +12,13 @@ import { FaBowlRice } from "react-icons/fa6";
 
 
 const Menu = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedOptionsMakananPokok, setSelectedOptionsMakananPokok] = useState([]);
   const [selectedOptionsLauk, setSelectedOptionsLauk] = useState([]);
   const [selectedOptionsSayuran, setSelectedOptionsSayuran] = useState([]);
   const [selectedOptionsBuah, setSelectedOptionsBuah] = useState([]);
+  const [isLogin, setIsLogin] = useState(false);
 
-  const handleSelectedOptionsChange = (options) => {
-    setSelectedOptions(options);
-  };
+
   const handleMakananPokok = (options) => {
     setSelectedOptionsMakananPokok(options);
   };
@@ -35,6 +32,13 @@ const Menu = () => {
     setSelectedOptionsBuah(options);
   };
 
+  const menuLink = isLogin ? "/meal" : "/login";
+
+  useEffect(() => {
+    const loginStatus = localStorage.getItem("isLogin");
+    setIsLogin(loginStatus === "true");
+  }, []);
+
   return (
     <div className="flex bg-primary h-auto overflow-x-hidden">
       <Navbar />
@@ -45,8 +49,8 @@ const Menu = () => {
           <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div>
           <div className='flex justify-end gap-3 mr-16 mt-4 mb-6'>
             <button className='font-bold border-2 border-primary rounded-3xl py-2 px-5 text-primary'>Random</button>
-            <Link to='/meal' className='z-30'>
-              <button type='button' className='font-bold bg-primary rounded-3xl py-3 px-5 text-white'>
+            <Link to={menuLink} className="z-30">
+              <button type="button"  className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-4 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
                 Set Menu
               </button>
             </Link>
@@ -125,7 +129,7 @@ const Menu = () => {
               </div>
             </div>
             <div className=' border-x-[10px] w-[25%] border-blue-300 flex-col my-6 justify-center'>
-            <div className='bg-white max-h-auto min-h-[270px] rounded-3xl p-6'>
+              <div className='bg-white max-h-auto min-h-[270px] rounded-3xl p-6'>
                 <div className='p-2'>
                   <h3 className='ml-2 font-bold'>Buah :</h3>
                   {selectedOptionsBuah.length > 0 && (

@@ -2,6 +2,20 @@ import React from 'react';
 import Input from '../elements/input/Input';
 import Sukses from '../elements/button/Sukses';
 
+const getLogin = async (user) => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+    });
+    const data = await response.json();
+    return data;
+}
+
+
+
 const Login = () => {
     const handleLogin = (event) => {
         event.preventDefault();
