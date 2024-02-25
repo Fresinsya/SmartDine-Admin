@@ -6,11 +6,12 @@ import { useMutation } from 'react-query';
 const postRegister = async (user) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
     method: 'POST',
+    body: JSON.stringify(user),
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(user),
   });
+
   const data = await response.json();
   return data;
 }
@@ -23,19 +24,20 @@ const Register = () => {
   const [showNotificationGagal, setShowNotificationGagal] = useState(false);
   const [user, setUser] = useState({
     nama: '',
-    username: '',
+    email: '',
     password: '',
     confirmPassword: '',
   });
 
   const { mutate, isError, isLoading } = useMutation({
     mutationKey: 'register',
-    mutationFn: (user) => postRegister(user),
+    mutationFn: () => postRegister(user),
     onError: (error) => {
-      alert('Registrasi gagal. Silakan coba lagi.' + error);
+      // alert('Registrasi gagal. Silakan coba lagi.' + error);
+      console.log(error)
     },
     onSuccess: () => {
-      alert('Registrasi berhasil. Silakan login.');
+      console.log('Registrasi berhasil!')
     }
   })
 
@@ -48,7 +50,7 @@ const Register = () => {
 
   const handleSukses = async (event) => {
     event.preventDefault();
-    if (event.target.nama.value !== null && event.target.username.value !== null && event.target.password.value !== null) {
+    if (event.target.nama.value !== null && event.target.email.value !== null && event.target.password.value !== null) {
       setShowNotificationSukses(true);
       setShowModal(true);
       setRedirecting(true);
@@ -60,6 +62,7 @@ const Register = () => {
       setShowModalGagal(true);
       setRedirecting(false);
     }
+    console.log(user);
   };
 
   useEffect(() => {
@@ -69,7 +72,7 @@ const Register = () => {
         setShowNotificationSukses(false);
         setTimeout(() => {
           if (redirecting) {
-            // window.location.href = "/login";
+            window.location.href = "/login";
           }
         }, 1000);
       }, 2000);
@@ -100,7 +103,7 @@ const Register = () => {
           <div className="items-center">
             <div className='grid md:grid-cols-1 items-center mx-16 mb-8 mt-6 gap-7'>
               <Input onChange={handleChange} tipe="text" name="nama" id="nama" placeholder="Anastasia" title="Nama" required />
-              <Input onChange={handleChange} tipe="text" name="username" id="username" placeholder="anastasia@gmail.com" title="Username" required />
+              <Input onChange={handleChange} tipe="text" name="email" id="email" placeholder="anastasia@gmail.com" title="email" required />
             </div>
             <div className='grid md:grid-cols-2 items-center mx-16 mb-9 mt-2 gap-7'>
               <Input onChange={handleChange} tipe="password" name="password" id="password" placeholder="********" title="Password" required />
@@ -113,7 +116,7 @@ const Register = () => {
               >
                 Registrasi Akun
               </button>
-              
+
               {showModal && (
                 <div className='absolute z-50'>
                   {showNotificationSukses && (

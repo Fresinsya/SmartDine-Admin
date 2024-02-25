@@ -5,7 +5,7 @@ import { CgDanger } from 'react-icons/cg';
 
 
 
-const Makanan = () => {
+const Makanan = ({ riwayat, handleChange, handleSukses }) => {
     const [showNotification, setShowNotification] = useState(false);
     const [showNotificationGagal, setShowNotificationGagal] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
@@ -16,9 +16,10 @@ const Makanan = () => {
         setRedirecting(true);
     };
 
-    const handleSaveChange = () => {
+    const handleSaveChange = async () => {
         setShowNotification(true);
-        setRedirecting(true);
+        // setRedirecting(true);
+        await handleSukses()
     };
 
     useEffect(() => {
@@ -68,33 +69,39 @@ const Makanan = () => {
                     <div>
                         <form>
                             <div className="grid gap-6 mb-6 md:grid-cols-2 px-6 pt-6">
-                                <Dropdown id='FAVC' title='Konsumsi Kalori Tinggi' required>
+                                <Dropdown id='FACV' title='Konsumsi Kalori Tinggi' required name="FACV" onChange={handleChange}>
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">no</option>
                                     <option value="1">yes</option>
                                 </Dropdown>
-                                <Dropdown id='FCVC' title='Konsumsi Sayuran' required>
+                                <Dropdown id='FCVC' title='Konsumsi Sayuran' required onChange={handleChange} name="FCVC">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="1">Tidak pernah</option>
                                     <option value="2">Kadang - kadang</option>
                                     <option value="3">Selalu mengkonsumsi</option>
                                 </Dropdown>
-                                <Dropdown id='NCP' title='Total Makan Utama' required>
+                                <Dropdown id='NCP' title='Total Makan Utama' required onChange={handleChange} name="NCP">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="1">1 x makan</option>
                                     <option value="2">2 x makan</option>
                                     <option value="3">3 x makan</option>
                                     <option value="4">4 x makan</option>
                                 </Dropdown>
-                                <Dropdown id='CAEC' title='Konsumsi Camilan' required>
+                                <Dropdown id='CAEC' title='Konsumsi Camilan' required onChange={handleChange} name="CAEC">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">Tidak Pernah</option>
                                     <option value="1">Sering mengkonsumsi</option>
                                     <option value="2">Kadang - kadang</option>
                                     <option value="3">Selalu mengkonsumsi</option>
                                 </Dropdown>
-                                <Dropdown id='CH2O' title='Konsumsi Air Harian' required>
+                                <Dropdown id='CH20' title='Konsumsi Air Harian' required onChange={handleChange} name="CH20">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="1">1 liter</option>
                                     <option value="2">2 liter</option>
                                     <option value="3">3 liter</option>
                                 </Dropdown>
-                                <Dropdown id='CALC' title='Konsumsi Alkohol' required>
+                                <Dropdown id='CALC' title='Konsumsi Alkohol' required onChange={handleChange} name="CALC">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">Tidak Pernah</option>
                                     <option value="1">Sering mengkonsumsi</option>
                                     <option value="2">Kadang - kadang</option>

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../elements/input/Input';
 import Sukses from '../elements/button/Sukses';
+import { useMutation } from 'react-query';
 
-const getLogin = async (user) => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, {
+const postLogin = async (user) => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -14,33 +15,39 @@ const getLogin = async (user) => {
     return data;
 }
 
-
-
 const Login = () => {
-    const handleLogin = (event) => {
-        event.preventDefault();
-        
-        // Mengambil data dari localStorage
-        const storedUsername = localStorage.getItem("username");
-        const storedPassword = localStorage.getItem("password");
-        
-        // Jika data ditemukan, lakukan pengecekan
-        if (storedUsername && storedPassword) {
-            // Melakukan proses pengecekan
-            const enteredUsername = event.target.elements.username.value;
-            const enteredPassword = event.target.elements.password.value;
-            
-            // Jika data yang dimasukkan sesuai dengan yang tersimpan, redirect ke halaman utama
-            if (enteredUsername === storedUsername && enteredPassword === storedPassword) {
-                window.location.href = "/";
-            } else {
-                alert("Username atau password salah.");
-            }
-        } else {
-            alert("Data login belum tersimpan.");
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const { mutate, isError, isLoading } = useMutation({
+        mutationKey: 'login',
+        mutationFn: () => postLogin(loginData),
+        onError: (error) => {
+            console.log(error)
+        },
+        onSuccess: (data) => {
+            console.log('login berhasil!' + data)
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('id', data.id)
+            window.location.href = '/'
         }
+    })
+
+    const handleChange = (event) => {
+        setLoginData({
+            ...loginData,
+            [event.target.name]: event.target.value,
+        });
     }
 
+    const handleLogin = async (event) => {
+        event.preventDefault();
+
+        mutate(loginData);
+        console.log(loginData)
+    }
     return (
         <div className=" bg-primary w-full h-screen overflow-x-hidden">
             <div className="absolute z-20 bg-white w-[35%] h-[85%] ml-48 my-12 mx-4 pb-4 pt-4 rounded-2xl">
@@ -51,8 +58,8 @@ const Login = () => {
                         <h3>Silakan masukkan detail akun Anda.</h3>
                     </div>
                     <div className="grid md:grid-cols-1 items-center mx-16 mb-16 mt-8 gap-12">
-                        <Input tipe="text" id="username" placeholder="anastasia@gmail.com" title="Username" />
-                        <Input tipe="password" id="password" placeholder="********" title="Password" />
+                        <Input tipe="text" onChange={handleChange} name="email" id="email" placeholder="anastasia@gmail.com" title="email" />
+                        <Input tipe="password" onChange={handleChange} name="password" id="password" placeholder="********" title="Password" />
                         <div className='flex items-center gap-6 ml-16 mt-2 justify-end'>
                             <button type="submit"> <Sukses title='Register Akun' /> </button>
                         </div>

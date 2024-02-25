@@ -1,10 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Fragments/Navbar'
 import { GiChickenOven } from 'react-icons/gi';
 import EditProfile from '../Fragments/EditProfile';
 import PotoProfile from '../Fragments/PotoProfile';
+import { useMutation, useQuery } from 'react-query';
+
+const getProfile = async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const data = await response.json();
+    return data;
+}
 
 const Profile = () => {
+    const [user, setUser] = useState({})
+
+    const id = localStorage.getItem('id')
+    const { isLoading, isError, data } = useQuery({
+        queryKey: ["profile"],
+        queryFn: () => getProfile(id),
+
+    });
+    console.log(user)
+
+    useEffect(() => {
+        if (!isLoading) {
+            setUser(data.data);
+        }
+    }, [data, isLoading]);
+
     return (
         <>
             <div className="flex bg-primary h-auto overflow-x-hidden">
@@ -22,7 +50,7 @@ const Profile = () => {
                                         <div className='bg-primary rounded-full w-10 h-10 flex items-center justify-center'><GiChickenOven color='white' size={25} /></div>
                                         <div className='flex flex-col justify-center items-center w-[50%]'>
                                             <p className='text-non-aktif font-bold text-sm'>Kalori</p>
-                                            <p className='font-bold text-xl mx-auto'>2814</p>
+                                            <p className='font-bold text-xl mx-auto'>{user ? user.kaloriHarian : "-"}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -31,7 +59,7 @@ const Profile = () => {
                                         <div className='bg-primary rounded-full w-10 h-10 flex items-center justify-center'><GiChickenOven color='white' size={25} /></div>
                                         <div className='flex flex-col justify-center items-center w-[50%]'>
                                             <p className='text-non-aktif font-bold text-sm'>Usia</p>
-                                            <p className='font-bold text-xl mx-auto'>34</p>
+                                            <p className='font-bold text-xl mx-auto'>{user ? user.usia : "-"}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -40,7 +68,7 @@ const Profile = () => {
                                         <div className='bg-primary rounded-full w-10 h-10 flex items-center justify-center'><GiChickenOven color='white' size={25} /></div>
                                         <div className='flex flex-col justify-center items-center w-[50%]'>
                                             <p className='text-non-aktif font-bold text-sm'>Tinggi</p>
-                                            <p className='font-bold text-xl mx-auto'>168 cm</p>
+                                            <p className='font-bold text-xl mx-auto'>{user ? user.tinggiBadan : "-"}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -49,46 +77,42 @@ const Profile = () => {
                                         <div className='bg-primary rounded-full w-10 h-10 flex items-center justify-center'><GiChickenOven color='white' size={25} /></div>
                                         <div className='flex flex-col justify-center items-center w-[50%]'>
                                             <p className='text-non-aktif font-bold text-sm'>Berat</p>
-                                            <p className='font-bold text-xl mx-auto'>78 kg</p>
+                                            <p className='font-bold text-xl mx-auto'>{user ? user.beratBadan : "-"}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {/* <p className='font-bold text-lg mt-4'>Umur</p>
-                            <p className='font-bold text-lg mt-4'>Tinggi Badan</p>
-                            <p className='font-bold text-lg mt-4'>Berat Badan</p>
-                            <p className='font-bold text-lg mt-4'>Jenis Kelamin</p> */}
                         </div>
                         <div className='mb-[7px] mt-10'>
                             <p className='text-lg font-bold ml-44'>Biodata</p>
                             <div className='flex justify-center gap-20 mt-6'>
                                 <div>
-                                    <PotoProfile />
-                                    <img src="profile.jpeg" alt="" className=' w-48 h-48 rounded-2xl' />
+                                    <PotoProfile data={user} />
+                                    <img src={user ? user.avatar : 'https://i.stack.imgur.com/l60Hf.png'} alt="" className=' w-48 h-48 rounded-2xl' />
                                 </div>
                                 <div className='bg-[#6a87e585] w-[535px] rounded-2xl pt-6 pl-8 h-64'>
                                     <div className='flex justify-center'>
                                         <div className='w-1/2'>
                                             <p className='font-bold text-lg mt-4'>Nama :</p>
-                                            <p className='font-medium text-lg '>Budi Saipul</p>
+                                            <p className='font-medium text-lg '>{user ? user.nama : ""}</p>
                                         </div>
                                         <div className='w-1/2'>
                                             <p className='font-bold text-lg mt-4'>Email :</p>
-                                            <p className='font-medium text-lg '>BudiSaipul@gmail.com</p>
+                                            <p className='font-medium text-lg '>{user ? user.email : ""}</p>
                                         </div>
                                     </div>
                                     <div className='flex justify-center'>
                                         <div className='w-1/2'>
                                             <p className='font-bold text-lg mt-4'>No. Handphone :</p>
-                                            <p className='font-medium text-lg '>089533627191</p>
+                                            <p className='font-medium text-lg '>{user ? user.telepon : "-"}</p>
                                         </div>
                                         <div className='w-1/2'>
                                             <p className='font-bold text-lg mt-4'>Alamat :</p>
-                                            <p className='font-medium text-lg '>Pati, Jawa Tengah</p>
+                                            <p className='font-medium text-lg '>{user ? user.alamat : "-"}</p>
                                         </div>
                                     </div>
                                     <div className='flex justify-end w-[90%] mt-6'>
-                                        <EditProfile />
+                                        <EditProfile data={user} />
                                     </div>
                                 </div>
                             </div>

@@ -5,8 +5,7 @@ import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { CgDanger } from 'react-icons/cg';
 
 
-
-const Fisik = () => {
+const Fisik = ({riwayat, handleChange, handleSukses}) => {
     const [showNotification, setShowNotification] = useState(false);
     const [showNotificationGagal, setShowNotificationGagal] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
@@ -17,9 +16,10 @@ const Fisik = () => {
         setRedirecting(true);
     };
 
-    const handleSaveChange = () => {
+    const handleSaveChange = async () => {
         setShowNotification(true);
-        setRedirecting(true);
+        // setRedirecting(true);
+        await handleSukses()
     };
 
     useEffect(() => {
@@ -69,22 +69,26 @@ const Fisik = () => {
                     <div>
                         <form>
                             <div className="grid gap-4 md:grid-cols-2 mb-4 px-6 pt-6">
-                                <Dropdown id='SCC' title='Sedang Defisit Kalori'>
+                                <Dropdown id='SCC' title='Proses Defisit Kalori' name="SCC" onChange={handleChange}>
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">no</option>
                                     <option value="1">yes</option>
                                 </Dropdown>
-                                <Dropdown id='FAF' title='Aktifitas Fisik'>
+                                <Dropdown id='FAF' title='Aktifitas Fisik' onChange={handleChange} name="FAF">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">Tidak pernah</option>
                                     <option value="1">1 - 2 hari per minggu</option>
                                     <option value="2">2 - 4 hari per minggu</option>
                                     <option value="3">4 - 5 hari per minggu</option>
                                 </Dropdown>
-                                <Dropdown id='TUE' title='Durasi Penggunaan Elektronik'>
+                                <Dropdown id='TUE' title='Durasi Penggunaan Elektronik' onChange={handleChange} name="TUE">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">0 - 2 jam</option>
                                     <option value="1">3 - 5 jam</option>
                                     <option value="2">lebih dari 5 jam</option>
                                 </Dropdown>
-                                <Dropdown id='MTRANS' title='Transportasi Harian'>
+                                <Dropdown id='MTRANS' title='Transportasi Harian' onChange={handleChange} name="MTRANS">
+                                    <option selected disabled >Pilih disini</option>
                                     <option value="0">Mobil</option>
                                     <option value="1">Motor</option>
                                     <option value="2">Sepeda</option>
@@ -100,7 +104,7 @@ const Fisik = () => {
                     {/*footer*/}
                     <div className="flex items-center justify-end py-3 px-5  rounded-b">
                         <button
-                            type="submit"
+                            // type="submit"
                             className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-4 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
                             onClick={!isLogin ? handleTidakLogin : handleSaveChange}
                         >

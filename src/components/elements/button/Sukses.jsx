@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
 const Sukses = (props) => {
-    const { title, onClick, selectedOptions} = props;
+    const { title, onClick2, selectedOptions} = props;
     const [showModal, setShowModal] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
 
     const handleSaveChange = () => {
         setShowNotification(true);
         setShowModal(true);
-        onClick(selectedOptions);
+        // onClick(selectedOptions);
+        onClick2()
 
     };
 
@@ -19,8 +20,6 @@ const Sukses = (props) => {
                 setShowNotification(false);
             }, 1000); // 5000 milidetik = 5 detik
         }
-
-        // Membersihkan timer jika komponen di-unmount atau pemberitahuan disembunyikan
         return () => clearTimeout(timeout);
     }, [showNotification]);
 
@@ -29,7 +28,13 @@ const Sukses = (props) => {
             <button
                 className='bg-primary flex items-center gap-2  hover:border-blue-400 active:border border-2 text-white z-20 font-bold text-sm px-4 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none  '
                 type="button"
-                onClick={handleSaveChange}
+                onClick={
+                    () => {
+                    handleSaveChange()
+                    onClick2
+                    }
+                }
+
             >
                 {title}
             </button>
