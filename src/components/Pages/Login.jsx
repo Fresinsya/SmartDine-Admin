@@ -61,7 +61,7 @@ const Login = () => {
                         <Input tipe="text" onChange={handleChange} name="email" id="email" placeholder="anastasia@gmail.com" title="email" />
                         <Input tipe="password" onChange={handleChange} name="password" id="password" placeholder="********" title="Password" />
                         <div className='flex items-center gap-6 ml-16 mt-2 justify-end'>
-                            <button type="submit"> <Sukses title='Register Akun' /> </button>
+                            <button type="submit"> <Sukses title='Login Akun' /> </button>
                         </div>
                     </div>
                 </form>

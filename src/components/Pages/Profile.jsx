@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../Fragments/Navbar'
 import { GiChickenOven } from 'react-icons/gi';
 import EditProfile from '../Fragments/EditProfile';
-import PotoProfile from '../Fragments/PotoProfile';
+import PotoProfile from '../Fragments/PotoMenu';
 import { useMutation, useQuery } from 'react-query';
 
 const getProfile = async (id) => {
@@ -40,8 +40,8 @@ const Profile = () => {
                 <div className="flex-grow bg-white relative ml-20 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
                     <div className="bg-white p-3 rounded-4xl flex-col justify-center">
                         <h1 className="font-bold text-2xl ml-6">User Profile</h1>
-                        <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div>
-                        <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div>
+                        {/* <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div>
+                        <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div> */}
                         <div className='ml-8'>
                             <p className='text-base font-bold ml-12 mt-8'>Monitoring</p>
                             <div className='flex'>
@@ -50,7 +50,7 @@ const Profile = () => {
                                         <div className='bg-primary rounded-full w-10 h-10 flex items-center justify-center'><GiChickenOven color='white' size={25} /></div>
                                         <div className='flex flex-col justify-center items-center w-[50%]'>
                                             <p className='text-non-aktif font-bold text-sm'>Kalori</p>
-                                            <p className='font-bold text-xl mx-auto'>{user ? user.kaloriHarian : "-"}</p>
+                                            <p className='font-bold text-xl mx-auto'>{user ? user.kaloriHarian : "0"}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@ const Profile = () => {
                             <p className='text-lg font-bold ml-44'>Biodata</p>
                             <div className='flex justify-center gap-20 mt-6'>
                                 <div>
-                                    <PotoProfile data={user} />
+                                    <PotoProfile  data={user}/>
                                     <img src={user ? user.avatar : 'https://i.stack.imgur.com/l60Hf.png'} alt="" className=' w-48 h-48 rounded-2xl' />
                                 </div>
                                 <div className='bg-[#6a87e585] w-[535px] rounded-2xl pt-6 pl-8 h-64'>

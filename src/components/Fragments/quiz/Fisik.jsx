@@ -3,13 +3,68 @@ import Input from '../../elements/input/Input';
 import Dropdown from '../../elements/input/Dropdown';
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { CgDanger } from 'react-icons/cg';
+import { useMutation, useQuery } from 'react-query';
 
 
-const Fisik = ({riwayat, handleChange, handleSukses}) => {
+const postKalori = async (id) => {
+    const response = await fetch(`http://localhost:3000/user/process-data/${id}`, {
+        method: 'POST',
+        // body: JSON.stringify(),
+        // headers: {
+        //     'Content-Type': 'application/json',
+        // },
+    });
+
+    const data = await response.json();
+    return data;
+}
+
+const getRiwayat = async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/riwayat/user/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const data = await response.json();
+    return data;
+}
+
+
+const Fisik = ({ riwayat, handleChange, handleSukses }) => {
     const [showNotification, setShowNotification] = useState(false);
     const [showNotificationGagal, setShowNotificationGagal] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const [redirecting, setRedirecting] = useState(false);
+    const [dataRiwayat, setDataRiwayat] = useState([{}]);
+    // const [kalori, setKalori] = useState(0);
+
+
+
+    const id = localStorage.getItem('id');
+
+    useEffect(() => {
+        if (riwayat && riwayat.data) {
+            setDataRiwayat(riwayat.data)
+        }
+    }, [riwayat]);
+
+    console.log("riwayat:", dataRiwayat)
+
+
+    const { mutate, data } = useMutation({
+        mutationKey: "postKalori",
+        mutationFn: () => postKalori(id),
+
+        onError: (error) => {
+            console.log(error)
+        },
+        onSuccess: (data) => {
+            console.log("kalori :", data)
+        }
+    });
+
+    // console.log("riwayat:" ,riwayat.data.SCC)
 
     const handleTidakLogin = () => {
         setShowNotificationGagal(true);
@@ -18,8 +73,10 @@ const Fisik = ({riwayat, handleChange, handleSukses}) => {
 
     const handleSaveChange = async () => {
         setShowNotification(true);
+        mutate()
         // setRedirecting(true);
         await handleSukses()
+        // console.log(data)
     };
 
     useEffect(() => {
@@ -57,7 +114,7 @@ const Fisik = ({riwayat, handleChange, handleSukses}) => {
 
     return (
         <div>
-            <div className="relative z-40 my-6 mx-auto">
+            <div className="relative z-40 my-6 mx-auto ">
                 {/*content*/}
                 <div className=" rounded-lg  relative flex flex-col w-full outline-none focus:outline-none">
                     {/*header*/}
@@ -68,35 +125,75 @@ const Fisik = ({riwayat, handleChange, handleSukses}) => {
                     </div>
                     <div>
                         <form>
-                            <div className="grid gap-4 md:grid-cols-2 mb-4 px-6 pt-6">
-                                <Dropdown id='SCC' title='Proses Defisit Kalori' name="SCC" onChange={handleChange}>
-                                    <option selected disabled >Pilih disini</option>
-                                    <option value="0">no</option>
-                                    <option value="1">yes</option>
-                                </Dropdown>
-                                <Dropdown id='FAF' title='Aktifitas Fisik' onChange={handleChange} name="FAF">
-                                    <option selected disabled >Pilih disini</option>
-                                    <option value="0">Tidak pernah</option>
-                                    <option value="1">1 - 2 hari per minggu</option>
-                                    <option value="2">2 - 4 hari per minggu</option>
-                                    <option value="3">4 - 5 hari per minggu</option>
-                                </Dropdown>
-                                <Dropdown id='TUE' title='Durasi Penggunaan Elektronik' onChange={handleChange} name="TUE">
-                                    <option selected disabled >Pilih disini</option>
-                                    <option value="0">0 - 2 jam</option>
-                                    <option value="1">3 - 5 jam</option>
-                                    <option value="2">lebih dari 5 jam</option>
-                                </Dropdown>
-                                <Dropdown id='MTRANS' title='Transportasi Harian' onChange={handleChange} name="MTRANS">
-                                    <option selected disabled >Pilih disini</option>
-                                    <option value="0">Mobil</option>
-                                    <option value="1">Motor</option>
-                                    <option value="2">Sepeda</option>
-                                    <option value="3">Jalan kaki</option>
-                                    <option value="4">Transportasi Umum</option>
-                                </Dropdown>
-
-
+                            <div className=''>
+                                <div className="grid gap-4 md:grid-cols-4 mb-4 px-6 pt-6">
+                                    <Dropdown id='SCC' title='Proses Defisit Kalori' name="SCC" onChange={handleChange} value={dataRiwayat ? dataRiwayat.SCC : ""}>
+                                        <option value="" >Pilih disini</option>
+                                        <option value="0">no</option>
+                                        <option value="1">yes</option>
+                                    </Dropdown>
+                                    <Dropdown id='FAF' title='Aktifitas Fisik' onChange={handleChange} name="FAF" value={dataRiwayat ? dataRiwayat.FAF : ""} >
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="0">Tidak pernah</option>
+                                        <option value="1">1 - 2 hari per minggu</option>
+                                        <option value="2">2 - 4 hari per minggu</option>
+                                        <option value="3">4 - 5 hari per minggu</option>
+                                    </Dropdown>
+                                    <Dropdown id='TUE' title='Durasi Penggunaan Elektronik' onChange={handleChange} value={dataRiwayat ? dataRiwayat.SCC : ""} name="TUE">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="0">0 - 2 jam</option>
+                                        <option value="1">3 - 5 jam</option>
+                                        <option value="2">lebih dari 5 jam</option>
+                                    </Dropdown>
+                                    <Dropdown id='MTRANS' title='Transportasi Harian' onChange={handleChange} value={dataRiwayat ? dataRiwayat.SCC : ""} name="MTRANS">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="0">Mobil</option>
+                                        <option value="1">Motor</option>
+                                        <option value="2">Sepeda</option>
+                                        <option value="3">Jalan kaki</option>
+                                        <option value="4">Transportasi Umum</option>
+                                    </Dropdown>
+                                    {/* </div> */}
+                                    {/* <div className="grid gap-6 mb-6 md:grid-cols-2 px-6 pt-6"> */}
+                                    <Dropdown id='FACV' title='Konsumsi Kalori Tinggi' required name="FACV" onChange={handleChange} value={dataRiwayat ? dataRiwayat.SCC : ""}>
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="0">no</option>
+                                        <option value="1">yes</option>
+                                    </Dropdown>
+                                    <Dropdown id='FCVC' title='Konsumsi Sayuran' required onChange={handleChange} value={dataRiwayat ? dataRiwayat.FCVC : ""} name="FCVC">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="1">Tidak pernah</option>
+                                        <option value="2">Kadang - kadang</option>
+                                        <option value="3">Selalu mengkonsumsi</option>
+                                    </Dropdown>
+                                    <Dropdown id='NCP' title='Total Makan Utama' required onChange={handleChange} value={dataRiwayat ? dataRiwayat.NCP : ""} name="NCP">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="1">1 x makan</option>
+                                        <option value="2">2 x makan</option>
+                                        <option value="3">3 x makan</option>
+                                        <option value="4">4 x makan</option>
+                                    </Dropdown>
+                                    <Dropdown id='CAEC' title='Konsumsi Camilan' required onChange={handleChange} value={dataRiwayat ? dataRiwayat.CAEC : ""} name="CAEC">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="0">Tidak Pernah</option>
+                                        <option value="1">Sering mengkonsumsi</option>
+                                        <option value="2">Kadang - kadang</option>
+                                        <option value="3">Selalu mengkonsumsi</option>
+                                    </Dropdown>
+                                    <Dropdown id='CH20' title='Konsumsi Air Harian' required onChange={handleChange} value={dataRiwayat ? dataRiwayat.CH20 : ""} name="CH20">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="1">1 liter</option>
+                                        <option value="2">2 liter</option>
+                                        <option value="3">3 liter</option>
+                                    </Dropdown>
+                                    <Dropdown id='CALC' title='Konsumsi Alkohol' required onChange={handleChange} value={dataRiwayat ? dataRiwayat.CALC : ""} name="CALC">
+                                        <option value="" selected >Pilih disini</option>
+                                        <option value="0">Tidak Pernah</option>
+                                        <option value="1">Sering mengkonsumsi</option>
+                                        <option value="2">Kadang - kadang</option>
+                                        <option value="3">Selalu mengkonsumsi</option>
+                                    </Dropdown>
+                                </div>
                             </div>
                         </form>
                     </div>

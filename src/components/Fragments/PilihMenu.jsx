@@ -1,17 +1,60 @@
 // PilihMenu.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchDropdown from '../elements/input/SearchDropdown';
-import Sukses from '../elements/button/Sukses';
+import SuksesMenu from '../elements/button/SuksesMenu';
+import { useMutation, useQuery } from 'react-query';
 
-const PilihMenu = ({ onSelectedOptionsChange, title, children, id }) => {
+const postBahan = async (bahan) => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/meal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bahan),
+  });
+  const data = await response.json();
+  return data;
+};
+
+
+const PilihMenu = ({ onSelectedOptionsChange, title, children, id, jenis }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
+  const [dataBenar, setDataBenar] = useState([]);
+
+  const iduser = localStorage.getItem('id');
+
+  // const [meal, setMeal] = useState({});
+
+  const [bahan, setBahan] = useState({
+    IdUser: iduser,
+    bahan: [],
+  });
+
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: "postBahan",
+    mutationFn: postBahan,
+    onSuccess: () => {
+      console.log('Riwayat berhasil!')
+    }
+  });
+
+  // console.log(dataBenar)
+
+  const handleChange = (event) => {
+    setBahan({
+      ...bahan,
+      [event.target.name]: event.target.value,
+    });
+  }
 
   const handleClick = () => {
     setIsClicked(true);
     setShowModal(true);
   };
+
 
   const handleTampilOption = (selectedFood) => {
     setSelectedOptions([...selectedOptions, selectedFood]);
@@ -21,19 +64,28 @@ const PilihMenu = ({ onSelectedOptionsChange, title, children, id }) => {
   const handleRemoveOption = (index) => {
     const updatedOptions = selectedOptions.filter((_, i) => i !== index);
     setSelectedOptions(updatedOptions);
+
+    const updatedDataBenar = dataBenar.filter((_, i) => i !== index);
+    setDataBenar(updatedDataBenar);
   }
 
-  const handleSelectedOptionsChange = () => {
+  const handleSelectedOptionsChange = async () => {
     onSelectedOptionsChange(selectedOptions);
+    // console.log({ ...bahan, bahan: dataBenar })
+    mutate({ ...bahan, bahan: dataBenar })
   };
+
+  // console.log(dataBenar)
+
 
 
   return (
     <>
       <button
         id={id}
-        className={`bg-primary flex items-center gap-2  hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-4 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${isClicked ? 'border-red-500 border-x-transparent border-t-transparent' : ''}`}
+        className={`bg-primary flex items-center gap-2  hover:border-blue-400 md: active:border border-4 text-white z-30 font-bold text-sm px-4 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${isClicked ? 'border-red-500 border-x-transparent border-t-transparent' : ''}`}
         type="button"
+        // jenis={jenis}
         onClick={handleClick}
       >
         {children}
@@ -58,11 +110,11 @@ const PilihMenu = ({ onSelectedOptionsChange, title, children, id }) => {
                   </button>
                 </div>
                 <div className="w-11/12 mt-3 mx-auto z-30">
-                  <SearchDropdown onSelectedFoodChange={handleTampilOption} />
+                  <SearchDropdown dataBenar={dataBenar} setDataBenar={setDataBenar} onSelectedFoodChange={handleTampilOption} jenis={jenis} />
                   <div className='p-2'>
                     {selectedOptions.length > 0 && (
                       <div className="mt-4">
-                        <h3 className='ml-2 font-bold'>Makanan Pokok :</h3>
+                        <h3 className='ml-2 font-bold'>{title}:</h3>
                         <ul className='ml-2 p-2 grid md:grid-cols-3'>
                           {selectedOptions.map((option, index) => (
                             <li key={index} className='flex items-center gap-3 font-medium'>
@@ -90,7 +142,7 @@ const PilihMenu = ({ onSelectedOptionsChange, title, children, id }) => {
                   </button>
                   <div className='flex items-center gap-6 mr-4'>
                     {/* Mengirim handleSelectedOptionsChange sebagai properti onClick */}
-                    <Sukses title='Save Change' onClick={handleSelectedOptionsChange} selectedOptions={selectedOptions} />
+                    <SuksesMenu title='Save Change' onClick={handleSelectedOptionsChange} selectedOptions={selectedOptions} onchange={handleChange} />
                   </div>
                 </div>
               </div>

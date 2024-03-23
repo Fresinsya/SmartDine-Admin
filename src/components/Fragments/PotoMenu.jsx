@@ -5,7 +5,7 @@ import { FaFileImage } from "react-icons/fa6";
 import { useMutation } from 'react-query';
 
 const postGambar = async (image, id) => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/editProfile/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/editProfile/menu/${id}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ const postGambar = async (image, id) => {
 }
 
 
-const PotoProfile = ({ data }) => {
+const PotoMenu = ({ imgBaru, setImgBaru, updateMenuAvatar, avatar }) => {
 
     const [showModal, setShowModal] = useState(false);
     const [modalSize, setModalSize] = useState('md');
@@ -29,19 +29,24 @@ const PotoProfile = ({ data }) => {
         const reader = new FileReader();
 
         reader.onload = (event) => {
-            const img = document.getElementById("preview-img");
+            const img = document.getElementById("imgBaru");
             img.src = event.target.result;
+            // console.log(event.target.result)
         };
 
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             const newImages = reader.result;
             setImage(newImages);
+            setImgBaru(newImages);
+            updateMenuAvatar(newImages);
             // setBase64Images(newImages);
             // setBarang({ ...barang, image: newImages });
             // console.log({ newImages });
         };
+
     };
+
 
     const id = localStorage.getItem('id')
 
@@ -57,14 +62,16 @@ const PotoProfile = ({ data }) => {
         }
     });
 
+    // console.log(imgBaru)
+
     const uploadGambar = async (e) => {
-        mutate()
+        // mutate()
         setShowModal(false)
     }
 
     return (
-        <>
-            <button className='bg-primary p-3 z-20 rounded-full ml-40 absolute bottom-24'
+        <div >
+            <button className='bg-primary p-3 rounded-full z-20 absolute right-[535px] top-[280px]'
                 type="button"
                 onClick={() => setShowModal(true)}
             >
@@ -88,14 +95,15 @@ const PotoProfile = ({ data }) => {
                                 </div>
                                 <div className='my-3'>
                                     <div className='flex justify-center'>
-                                        <img src={data.avatar} id='preview-img' alt="" className='w-20 h-20 rounded-full' />
+                                        <img id='imgBaru' src={imgBaru || avatar} alt="" className='w-20 h-20 rounded-full' />
+                                        
                                     </div>
                                     <div className='flex justify-center mt-3 mb-2'>
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Image</label>
                                     </div>
                                     <div className='flex justify-center w-full '>
                                         <div className=''>
-                                            <input onChange={handleImgUpload} class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
+                                            <input onChange={handleImgUpload} name='avatar' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
                                         </div>
                                     </div>
                                 </div>
@@ -122,8 +130,8 @@ const PotoProfile = ({ data }) => {
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                 </div>
             ) : null}
-        </>
+        </div>
     )
 }
 
-export default PotoProfile
+export default PotoMenu
