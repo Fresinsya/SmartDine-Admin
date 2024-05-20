@@ -37,7 +37,7 @@ function App() {
             
             <Route path="/login" element={<Login />} />
             <Route path="/registrasi" element={<Register />} />
-            <Route path="/coba" element={<Coba />} />
+            {/* <Route path="/coba" element={<Coba />} /> */}
 
           </Routes>
         </QueryClientProvider>
