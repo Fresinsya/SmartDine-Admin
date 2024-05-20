@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Navbar from '../Fragments/Navbar';
-import Dropdown from '../elements/input/Dropdown';
-import { FaPencilAlt } from 'react-icons/fa';
-import Input from '../elements/input/Input';
-import PotoProfile from '../Fragments/PotoMenu';
-import { useMutation, useQuery } from 'react-query';
-import { CgDanger } from "react-icons/cg";
+import { GiChickenOven } from "react-icons/gi";
+import { GiShinyApple } from "react-icons/gi";
+import { GiBroccoli } from "react-icons/gi";
+import PilihMenu from '../Fragments/PilihMenu';
+import { Link } from 'react-router-dom';
+import { FaBowlRice } from "react-icons/fa6";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
-
+import { useMutation } from 'react-query';
+import PotoProfile from '../Fragments/PotoProfile';
+import PotoMenu from '../Fragments/PotoMenu';
 
 
 const postMenu = async (menu) => {
@@ -26,6 +28,7 @@ const postMenu = async (menu) => {
 }
 
 const Menu = ({ fotoMakanan }) => {
+
   const [rows, setRows] = useState([{ id: 1 }]); // Initial state with one row
   const [showNotificationSukses, setShowNotificationSukses] = useState(false);
   const [showNotificationGagal, setShowNotificationGagal] = useState(false);
@@ -177,6 +180,172 @@ const Menu = ({ fotoMakanan }) => {
     return () => clearTimeout(timeout);
   }, [showNotificationGagal]);
 
+
+  // useEffect(() => {
+  //   if (data && data.data && data.data.bahan) {
+  //     const filterData = data.data.bahan.filter(bahan => bahan.jenis === 'pokok');
+  //     setSelectedOptionsMakananPokok(filterData);
+
+  //     const filterDataLauk = data.data.bahan.filter(bahan => bahan.jenis === 'lauk');
+  //     setSelectedOptionsLauk(filterDataLauk);
+
+  //     const filterDataBuah = data.data.bahan.filter(bahan => bahan.jenis === 'buah');
+  //     setSelectedOptionsBuah(filterDataBuah);
+
+  //     const filterDataSayuran = data.data.bahan.filter(bahan => bahan.jenis === 'sayuran');
+  //     setSelectedOptionsSayuran(filterDataSayuran);
+
+  //     const filterDataBumbu = data.data.bahan.filter(bahan => bahan.jenis === 'pelengkap');
+  //     setSelectedOptionsBumbu(filterDataBumbu);
+
+  //     const filterDataLainnya = data.data.bahan.filter(bahan => bahan.jenis === 'lainnya');
+  //     setSelectedOptionsLainnya(filterDataLainnya);
+
+  //   }
+  // }, [data]);
+
+  // const { mutate, onError } = useMutation({
+  //   mutationKey: "postRandomMenu",
+  //   mutationFn: () => postRandomMenu(bahan, kalori, iduser),
+  //   onSuccess: (data) => {
+  //     localStorage.setItem("activeNav", "/meal");
+  //     window.location.href = "/meal";
+  //   }, onError: (error) => {
+  //     console.log(error);
+  //   }
+  // });
+
+  // const aturMeal = localStorage.setItem("meal", false);
+
+  // const handleNavClick = async (navItem) => {
+  //   // const databaseDate = history; //'2024-03-18';
+  //   // const datePassed = isDatePassedMenu(databaseDate);
+
+  //   if (selectedOptionsMakananPokok.length > 0 && selectedOptionsLauk.length > 0 && selectedOptionsSayuran.length > 0 && dataUser.data.kaloriHarian !== 0 && dataUser !== null ) {
+  //     setShowNotification(true);
+  //     localStorage.setItem("activeNav", "/meal");
+  //     console.log(bahan);
+  //     console.log(iduser);
+  //     await mutate();
+  //     localStorage.setItem("meal", true);
+  //     // window.location.href = "/meal"; // Pindahkan ini ke dalam onSuccess mutate
+  //   } else if (!dataUser || !dataUser.data || !dataUser.data.kaloriHarian) {
+  //     setShowNotificationGagal(true);
+  //     setRedirecting(true);
+  //     // console.log("kalori",dataUser.data.kaloriHarian)
+  //     window.location.href = "/profile";
+  //     localStorage.setItem("activeNav", "/profile");
+  //   }else {
+  //     setShowNotificationGagalRandom(true);
+  //     // localStorage.setItem("activeNav", "/");
+  //     // window.location.href = "/";
+  //   }
+  // };
+
+
+  //   const handleNavClick = async () => {
+  //   if (selectedOptionsMakananPokok.length > 0 && selectedOptionsLauk.length > 0 && selectedOptionsSayuran.length > 0) {
+  //     setShowNotification(true);
+  //     localStorage.setItem("activeNav", "/meal");
+  //     await mutate();
+  //     localStorage.setItem("meal", true);
+  //     // window.location.href = "/meal"; // Pindahkan ini ke dalam onSuccess mutate
+  //   } else if (!dataUser || !dataUser.data || !dataUser.data.kaloriHarian) {
+  //     // Jika dataUser tidak tersedia, dataUser tidak memiliki properti data, atau kaloriHarian kosong, arahkan ke "/profile"
+  //     setShowNotificationGagal(true);
+  //     setRedirecting(true);
+  //     window.location.href = "/profile";
+  //     localStorage.setItem("activeNav", "/profile");
+  //   } else {
+  //     // Jika dataUser dan kaloriHarian sudah ada, arahkan ke "/home"
+  //     setShowNotification(true);
+  //     localStorage.setItem("activeNav", "/home");
+  //     // Lakukan tindakan lain yang diperlukan
+  //     // window.location.href = "/home"; // Anda bisa menambahkan ini jika diperlukan
+  //   }
+  // };
+
+  // const { mutate: mutateBahan } = useMutation({
+  //   mutationKey: "delBahan",
+  //   mutationFn: delBahan,
+  //   onSuccess: () => {
+  //     console.log('BERHASIL HAPUS BAHAN' + bahan)
+  //   }
+  // });
+
+  // const handleRemoveOption = async (id) => {
+  // const updatedDataBenar = data.data.bahan.filter((_, i) => i !== id);
+  // const updatedBahan = updatedDataBenar.map(bahan => bahan.nama);
+  // setBahan(updatedBahan);
+
+  // // Lanjutkan dengan proses penghapusan bahan dan pemanggilan mutateBahan
+  // const idBahan = data.data.bahan[id].id;
+  //   if (id) {
+  //     await mutateBahan({ iduser, idBahan: id });
+  //     refetch();
+  //     setShowNotification(true);
+  //     // return;
+  //   } else {
+  //     setShowNotificationGagal(true);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   let timeout;
+  //   if (showNotification) {
+  //     timeout = setTimeout(() => {
+  //       setShowNotification(false);
+
+  //     }, 2000); // 5000 milidetik = 5 detik
+  //   }
+  //   return () => clearTimeout(timeout);
+  // }, [showNotification]);
+
+  // useEffect(() => {
+  //   let timeout;
+  //   if (showNotificationGagal) {
+  //     timeout = setTimeout(() => {
+  //       setShowNotificationGagal(false);
+  //       setTimeout(() => {
+  //         if (redirecting) {
+  //           // Perbarui untuk mengarahkan pengguna ke '/meal' atau '/login'
+  //           // const redirectPath = isLogin ? "/meal" : "/login";
+  //           // window.location.href = redirectPath;
+  //           // setActiveNav(navItem); // Jika Anda masih membutuhkan ini, pastikan navItem sudah didefinisikan sebelumnya
+  //           // localStorage.setItem("activeNav", navItem);
+  //         }
+  //       }, 1000);
+  //     }, 2000); // 5000 milidetik = 5 detik
+  //   }
+
+  //   // Membersihkan timer jika komponen di-unmount atau pemberitahuan disembunyikan
+  //   return () => clearTimeout(timeout);
+  // }, [showNotificationGagal]);
+
+  // useEffect(() => {
+  //   let timeout;
+  //   if (showNotificationGagalRandom) {
+  //     timeout = setTimeout(() => {
+  //       setShowNotificationGagalRandom(false);
+  //       setTimeout(() => {
+  //         if (redirecting) {
+  //           // Perbarui untuk mengarahkan pengguna ke '/meal' atau '/login'
+  //           // const redirectPath = isLogin ? "/meal" : "/login";
+  //           // window.location.href = redirectPath;
+  //           // setActiveNav(navItem); // Jika Anda masih membutuhkan ini, pastikan navItem sudah didefinisikan sebelumnya
+  //           // localStorage.setItem("activeNav", navItem);
+  //         }
+  //       }, 1000);
+  //     }, 2000); // 5000 milidetik = 5 detik
+  //   }
+
+  //   // Membersihkan timer jika komponen di-unmount atau pemberitahuan disembunyikan
+  //   return () => clearTimeout(timeout);
+  // }, [showNotificationGagalRandom]);
+
+
+
+
   return (
     <div className="flex bg-primary h-auto overflow-x-hidden min-h-[500px]">
       <Navbar />
@@ -189,11 +358,12 @@ const Menu = ({ fotoMakanan }) => {
             <button type="button" onClick={() => handleNavClick(isLogin ? "/" : "/login")} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
               Create Menu
             </button>
+            {/* </Link> */}
           </div>
           <div className='z-20'>
-            <PotoProfile data={menu} imgBaru={imgBaru} setImgBaru={setImgBaru} updateMenuAvatar={updateMenuAvatar} />
-            <div className='flex justify-center items-center'>
+            <div className='flex flex-col justify-center items-center'>
               <img id='preview-img' src={fotoMakanan ? fotoMakanan : (imgBaru ? imgBaru : "https://res.cloudinary.com/dd8tyaph2/image/upload/v1711198057/piring_gbndqt.jpg")} alt="" className='w-40 h-40 rounded-2xl' />
+              <PotoMenu data={menu} imgBaru={imgBaru} setImgBaru={setImgBaru} updateMenuAvatar={updateMenuAvatar} />
             </div>
           </div>
           {/*  */}
@@ -268,6 +438,7 @@ const Menu = ({ fotoMakanan }) => {
                   className="w-full h-32 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-400"
                 />
               </div>
+              {/* )} */}
             </div>
             <div className="mt-5 border rounded-xl w-1/2 mr-28 z-20">
               <div className='p-4'>

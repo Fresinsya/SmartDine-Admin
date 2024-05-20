@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -58,16 +59,16 @@ const Meal = () => {
         const login = localStorage.getItem('isLogin');
         setIsLogin(login);
     }, [isLogin]);
-    
+
 
     const handleAddRow = () => {
         // const newRow = { id: rows.length + 1 };
         // setRows([...rows, newRow]);
-        // if (isLogin === true) {
-            window.location.href = '/menu';
-        // } else {
-        //     window.location.href = '/login';
-        // }
+        if (isLogin === "true") {
+        window.location.href = '/menu';
+        } else {
+            window.location.href = '/login';
+        }
 
 
         // Tambahkan objek bahan baru ke dalam state bahan
@@ -109,6 +110,8 @@ const Meal = () => {
 
 
 
+
+    // console.log(filteredMenu)
     // console.log(random)
     // console.log(selectedDay)
 
@@ -143,7 +146,7 @@ const Meal = () => {
 
     const handleDetailMenu = async (id) => {
         try {
-            if (isLogin === true) {
+            if (isLogin === "true") {
                 window.location.href = `/detail/${id}`;
             } else {
                 window.location.href = '/login';
@@ -156,7 +159,7 @@ const Meal = () => {
 
     const handleEditMenu = async (id) => {
         try {
-            if (isLogin === true) {
+            if (isLogin === "true") {
                 window.location.href = `/editMenu/${id}`;
             } else {
                 window.location.href = '/login';
@@ -178,7 +181,7 @@ const Meal = () => {
     return (
         <div className="flex bg-primary h-screen overflow-x-hidden overflow-y-auto min-h-[750px]">
             <Navbar />
-            <div className="flex-grow bg-white h-fit min-h-full relative lg:ml-20 ml-14 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
+            <div className="flex-grow bg-white h-fit min-h-full relative ml-20  mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
                 <div className=" p-3 rounded-4xl flex-col justify-center">
                     <h1 className="font-bold text-2xl md:ml-6 ml-1 ">Daftar Menu</h1>
                     {/* <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div> */}
@@ -271,6 +274,8 @@ const Meal = () => {
                 </div>
             </div>
         </div>
+        // </div >
+
     );
 };
 

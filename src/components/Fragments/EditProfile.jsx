@@ -52,10 +52,16 @@ const EditProfile = ({ data }) => {
         });
     }
 
+    const handleClose = () => {
+        setShowModal(false)
+        window.location.reload();
+    }
+
     const handleSukses = async (event) => {
         console.log(profile)
         setShowModal(true)
         mutate(profile)
+        // refetch();
     }
 
     useEffect(() => {
@@ -76,10 +82,10 @@ const EditProfile = ({ data }) => {
             {showModal ? (
                 <div className=''>
                     <div
-                        className="justify-center z-50 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none"
+                        className="justify-center md:pt-0 z-50 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none"
                     >
 
-                        <div className="relative w-3/4 my-6 mx-auto mt-52">
+                        <div className="relative w-3/4 my-6 mx-auto mt-10">
                             {/*content*/}
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 {/*header*/}
@@ -99,7 +105,7 @@ const EditProfile = ({ data }) => {
                                             <Input title='address' name='alamat' value={profile ? profile.alamat : ""} onChange={handleChange} type='text' id='alamat' placeholder='Surabaya, Jawa Timur' />
 
                                             <Dropdown id='jenisKelamin' name='gender' title='Jenis Kelamin' value={profile ? profile.gender : ""} onChange={handleChange}>
-                                                <option selected disabled >pilih gender</option>
+                                                <option selected disabled value="" >pilih gender</option>
                                                 <option value="0">perempuan</option>
                                                 <option value="1">Laki-laki</option>
                                             </Dropdown>
@@ -134,7 +140,7 @@ const EditProfile = ({ data }) => {
                                     <button
                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={handleClose}
                                     >
                                         Close
                                     </button>

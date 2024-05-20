@@ -4,6 +4,7 @@ import { GiChickenOven } from 'react-icons/gi';
 import EditProfile from '../Fragments/EditProfile';
 import PotoProfile from '../Fragments/PotoProfile';
 import { useMutation, useQuery } from 'react-query';
+import { GrValidate } from "react-icons/gr";
 
 const getProfile = async (id) => {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/admin/${id}`, {
@@ -15,6 +16,16 @@ const getProfile = async (id) => {
     const data = await response.json();
     return data;
 }
+// const getRiwayat = async (id) => {
+//     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/riwayat/user/${id}`, {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
 const Profile = () => {
     const [admin, setAdmin] = useState({})
@@ -25,6 +36,16 @@ const Profile = () => {
         queryFn: () => getProfile(id),
 
     });
+
+    // },( [data, isLoading]);
+
+
+    // const { isLoading: isLoadingRiwayat, data: dataRiwayat } = useQuery({
+    //     queryKey: ["riwayat"],
+    //     queryFn: () => getRiwayat(id),
+
+    // });
+    // console.log(riwayat)
 
     useEffect(() => {
         if (!isLoading) {
@@ -42,7 +63,7 @@ const Profile = () => {
                         <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div> */}
                         <h1 className="font-bold text-2xl lg:ml-44 mb-8 mt-16 ml-10">Admin Profile</h1>
                         <div className=''>
-                            <div className='md:flex grid md:mx-7 mx-2 w-full md:gap-2 gap-10 mt-6'>
+                            <div className='md:flex justify-center md:mx-7 mx-2 w-full md:gap-2 gap-10 mt-6'>
                                 <div className=''>
                                     <img src={admin ? admin.avatar : 'https://res.cloudinary.com/dd8tyaph2/image/upload/v1716126670/profilr_zwq5dq.png'} alt="" className=' w-48 h-48 rounded-2xl' />
                                     <PotoProfile data={admin} />
@@ -76,12 +97,15 @@ const Profile = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex justify-end w-[90%] mt-6'>
+                                    {/* <div className='grid md:grid-cols-2 my-3'>
+                                    </div> */}
+                                    <div className='flex justify-end w-[80%] mt-6'>
                                         <EditProfile data={admin} />
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div >

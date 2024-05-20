@@ -1,5 +1,5 @@
 {
-  "name": "skripsi-smartdine",
+  "name": "admin-smartdine",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.8",
+    "@react-hook/media-query": "^1.1.1",
     "@reduxjs/toolkit": "^2.1.0",
     "better-react-carousel": "^1.1.2",
     "chart.js": "^4.4.2",
@@ -25,6 +26,7 @@
     "react-router-dom": "^6.22.3",
     "react-slick": "^0.29.0",
     "react-toastify": "^10.0.4",
+    "react-tooltip": "^5.26.4",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.10.5",
     "swiper": "^11.0.5"

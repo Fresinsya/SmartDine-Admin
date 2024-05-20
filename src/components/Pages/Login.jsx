@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Input from '../elements/input/Input';
 import Sukses from '../elements/button/Sukses';
 import { useMutation } from 'react-query';
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { CgDanger } from 'react-icons/cg';
+import Loading from '../Fragments/Loading';
 
 const postLogin = async (admin) => {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loginAdmin`, {
@@ -15,7 +18,10 @@ const postLogin = async (admin) => {
     return data;
 }
 
+
 const Login = () => {
+    // const [showNotification, setShowNotification] = useState(false);
+    // const [showNotificationGagal, setShowNotificationGagal] = useState(false);
     const [loginData, setLoginData] = useState({
         email: "",
         password: "",
@@ -64,6 +70,13 @@ const Login = () => {
             // window.location.href = '/'
         }
     })
+    
+    useEffect(() => {
+        if (isLoading  ) {
+            <Loading />
+        }
+    }, [isLoading]);
+
 
     const handleChange = (event) => {
         setLoginData({
@@ -90,7 +103,11 @@ const Login = () => {
                                 Login Akun
                             </button>
                         </div>
+                        {/* <div className='flex items-center gap-6 md:ml-16 mt-2 justify-end'>
+                            <button type="submit"> <Sukses title='Login Akun' /> </button>
+                        </div> */}
                     </div>
+                    {/* <div className='font-semibold md:text-base text-xs mx-10 my-4'>sudah memiliki akun? <a href="/registrasi" className='text-primary font-bold'>Register</a></div> */}
                 </form>
             </div>
             {/* <div className='absolute w-[8%] mt-[68px] flex justify-center ml-[1030px]'>

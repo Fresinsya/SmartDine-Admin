@@ -134,7 +134,7 @@ const EditMenu = () => {
   const handleAddRow = () => {
     const newRow = { id: rows.length + 1 };
     setRows([...rows, newRow]);
-  
+
     // Tambahkan objek bahan baru ke dalam state bahan
     setBahan([...bahan, { nama: '', jenis: '', jumlah: '' }]);
   };
@@ -175,10 +175,10 @@ const EditMenu = () => {
   const handleNavClick = async () => {
     if (menu.menu !== '' && menu.kalori_makanan !== '') {
       const dataToSend = {
-        ...menu,  
+        ...menu,
         bahan: bahan
       };
-  
+
       setShowNotificationSukses(true);
       mutate(dataToSend);
       console.log("kirim put ke database:", menu);
@@ -250,9 +250,9 @@ const EditMenu = () => {
               </button>
             </div>
             <div className='z-20'>
-              <PotoMenu data={menu} imgBaru={imgBaru} setImgBaru={setImgBaru} updateMenuAvatar={updateMenuAvatar} avatar={filteredMenu && filteredMenu.avatar} />
-              <div className='flex justify-center items-center'>
+              <div className='flex flex-col justify-center items-center'>
                 <img id='preview-img' src={imgBaru || (filteredMenu && filteredMenu.avatar)} alt="" className='w-40 h-40 rounded-2xl' /> {/* Menggunakan nilai imgBaru di sini */}
+                <PotoMenu data={menu} imgBaru={imgBaru} setImgBaru={setImgBaru} updateMenuAvatar={updateMenuAvatar} avatar={filteredMenu && filteredMenu.avatar} />
               </div>
             </div>
             {/*  */}
@@ -402,7 +402,7 @@ const EditMenu = () => {
         {
           showNotificationSukses && (
 
-            <div className="flex fixed z-50 item-center top-5 right-[400px] p-4 mb-4 text-sm text-white border border-green-500 rounded-full bg-green-500 dark:bg-gray-800 dark:text-white dark:border-green-500" role="alert">
+            <div className="flex fixed z-50 item-center top-5 right-2 p-4 mb-4 text-sm text-white border border-green-500 rounded-full bg-green-500 dark:bg-gray-800 dark:text-white dark:border-green-500" role="alert">
               <IoCheckmarkDoneCircle className='text-2xl m-1.5' />
               <div>
                 <span className="flex items-center h-auto m-2 font-medium">Data yang Anda lakukan telah berhasil disimpan ke dalam sistem.</span>
@@ -413,7 +413,7 @@ const EditMenu = () => {
         }
         {
           showNotificationGagal && (
-            <div className="flex fixed items-center z-50 top-5 right-[400px] p-4 mb-4 text-sm text-white border border-red-500 rounded-full bg-red-500 dark:bg-gray-800 dark:text-white dark:border-red-500" role="alert">
+            <div className="flex fixed items-center z-50 top-5 right-2 p-4 mb-4 text-sm text-white border border-red-500 rounded-full bg-red-500 dark:bg-gray-800 dark:text-white dark:border-red-500" role="alert">
               <CgDanger className='text-2xl m-2' />
               <div>
                 <span className="font-medium m-2">Silahkan login atau cek Meal-planning.</span>

@@ -6,6 +6,23 @@ import { MdQuiz } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 import { FiShoppingBag } from "react-icons/fi";
+import { Alert } from 'flowbite-react';
+import { useQuery } from 'react-query';
+import { AiFillMessage } from "react-icons/ai";
+// import { Tooltip } from 'react-tooltip';
+
+
+
+const getMeal = async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/random/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const data = await response.json();
+    return data;
+}
 
 
 const Navbar = () => {
@@ -15,6 +32,14 @@ const Navbar = () => {
     const [showModal, setShowModal] = useState(false);
     const [menu, setMenu] = useState(false);
 
+    const id = localStorage.getItem('id');
+    const { isLoading, isError, data } = useQuery({
+        queryKey: ["meal"],
+        queryFn: () => getMeal(id),
+    });
+
+    // console.log("navbar",data)
+
     const hapusLocalStorage = () => {
         if (localStorage.getItem("nama") !== null && localStorage.getItem("username") !== null && localStorage.getItem("password") !== null && localStorage.getItem("isLogin") !== "false") {
             localStorage.removeItem("nama");
@@ -22,6 +47,7 @@ const Navbar = () => {
             localStorage.removeItem("password");
             // localStorage.setItem("isLoggedOut", true);
             localStorage.setItem("isLogin", false);
+
             setRedirecting(true);
             setShowNotification(true);
             setShowModal(true);
@@ -30,6 +56,7 @@ const Navbar = () => {
             alert('Anda belum login');
         }
     };
+
 
     const handleClickMenu = () => {
         setMenu(!menu); // Toggle menu state
@@ -40,6 +67,9 @@ const Navbar = () => {
         if (showNotification) {
             timeout = setTimeout(() => {
                 setShowNotification(false);
+                if (redirecting) {
+                    window.location.href = "/login";
+                }
                 if (redirecting) {
                     window.location.href = "/login";
                 }
@@ -58,6 +88,18 @@ const Navbar = () => {
     const handleNavClick = (navItem) => {
         setActiveNav(navItem);
     };
+
+    const handleNavClickMeal = (nav) => {
+        if (data.data.length > 0) {
+            localStorage.setItem("activeNav", "/meal");
+            window.location.href = "/meal";
+        } else {
+            alert("Fitur Meal Planning belum diaktifkan");
+        }
+
+    };
+
+
 
     return (
         <nav>
@@ -125,6 +167,7 @@ const Navbar = () => {
                     >
                         <LuLogOut size={20} />
                     </a>
+                    {/* <Tooltip id="Logout" /> */}
 
                     {showModal ? (
                         <div className='absolute z-50'>
@@ -176,6 +219,7 @@ const Navbar = () => {
                 </div>
             ) : null}
         </nav >
+
     )
 }
 

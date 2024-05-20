@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-import Home from './components/Pages/Home'
+// import Home from './components/Pages/Home'
 import Menu from './components/Pages/Menu'
+import EditMenu from './components/Pages/EditMenu'
 // import Quiz from './components/Pages/Quiz'
 import { Route, Router, Routes } from 'react-router-dom'
 
@@ -11,9 +12,11 @@ import Profile from './components/Pages/Profile'
 import Login from './components/Pages/Login'
 import Register from './components/Pages/Register'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Coba from './components/Pages/coba'
+// import Paket from './components/Pages/Paket'
 import Meal from './components/Pages/Meal-planning'
-import EditMenu from './components/Pages/EditMenu'
-
+// import Quiz from './components/Pages/Quiz'
+// import About from './components/Pages/About'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -33,8 +36,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/registrasi" element={<Register />} /> */}
-            
+            <Route path="/registrasi" element={<Register />} />
+            <Route path="/coba" element={<Coba />} />
 
           </Routes>
         </QueryClientProvider>

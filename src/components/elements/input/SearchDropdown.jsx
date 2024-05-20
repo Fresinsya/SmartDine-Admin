@@ -14,12 +14,15 @@ const getMenu = async (jenis) => {
     return data;
 };
 
+
+
 const SearchDropdown = ({ onSelectedFoodChange, jenis, dataBenar, setDataBenar }) => {
     const [inputValue, setInputValue] = useState("");
     const [selectedFood, setSelectedFood] = useState("");
     const [open, setOpen] = useState(false);
     const [menu, setMenu] = useState([]);
     const [filteredFoods, setFilteredFoods] = useState([]);
+    const [allFoods, setAllFoods] = useState([]);
 
     const { isLoading, data, refetch } = useQuery({
         queryKey: ["menu", jenis], // Menambahkan jenis sebagai bagian dari queryKey
@@ -27,13 +30,13 @@ const SearchDropdown = ({ onSelectedFoodChange, jenis, dataBenar, setDataBenar }
         refetchIntervalInBackground: 1000,
 
     });
-    
+
     useEffect(() => {
         if (!isLoading && data) {
             setMenu(data.data);
         }
     }, [data, isLoading]);
-    
+
     // Fungsi untuk mereload data ketika jenis berubah
     useEffect(() => {
         refetch();
@@ -44,22 +47,50 @@ const SearchDropdown = ({ onSelectedFoodChange, jenis, dataBenar, setDataBenar }
         if (data) {
             const filterData = data.data;
             const bahanPokok = filterData.flatMap(makanan => makanan.bahan.filter(bahan => bahan.jenis.includes(jenis)));
-            setFilteredFoods(bahanPokok);
 
+            // Hapus duplikat berdasarkan nama bahan
+            const uniqueBahanPokok = bahanPokok.filter((bahan, index, self) => (
+                index === self.findIndex((t) => (
+                    t.nama.toLowerCase() === bahan.nama.toLowerCase()
+                ))
+            ));
+
+            setFilteredFoods(uniqueBahanPokok);
+            setAllFoods(uniqueBahanPokok);
         }
     }, [data, jenis]);
 
-    // console.log(filteredFoods)
+    // console.log("namama",filteredFoods)
 
     const handleOpen = () => {
         setOpen(!open);
     };
 
     const handleSearchChange = (event) => {
-        setInputValue(event.target.value);
-        const filtered = filteredFoods.filter(data => data.nama.toLowerCase().includes(event.target.value.toLowerCase()));
-        setFilteredFoods(filtered);
+        const value = event.target.value.toLowerCase();
+        setInputValue(value);
+
+        // const allFoods = menu.flatMap(data => data.nama);
+        // console.log(allFoods)
+
+        if (value === "") {
+            setFilteredFoods(allFoods); // Kembali ke semua data makanan ketika input kosong
+        } else {
+            const filtered = filteredFoods.filter(data => data.nama.toLowerCase().includes(value));
+            setFilteredFoods(filtered);
+        }
+        // setInputValue(event.target.value);
+        // const filtered = filteredFoods.filter(data => data.nama.toLowerCase().includes(event.target.value.toLowerCase()));
+        // setFilteredFoods(filtered);
     };
+
+    // const handleSearchChange = (event) => {
+    //     setSearchTerm(event.target.value);
+    // };
+
+    // const filteredMenu = menu.filter((item) =>
+    //     item.menu.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
 
     const handleItemClick = (data) => {
         handleOpen(false);
@@ -74,7 +105,7 @@ const SearchDropdown = ({ onSelectedFoodChange, jenis, dataBenar, setDataBenar }
             alert("Data sudah ada dalam daftar!");
         }
     };
-    
+
 
     console.log(filteredFoods)
     console.log(selectedFood)
@@ -109,21 +140,15 @@ const SearchDropdown = ({ onSelectedFoodChange, jenis, dataBenar, setDataBenar }
                     <ul className="overflow-y-auto max-h-48">
                         {filteredFoods.map((data) => {
                             return (
-                                
+
                                 <li
                                     key={data._id}
                                     className={`p-2 text-sm hover:bg-sky-600 hover:text-white ${data.nama === selectedFood && "text-black"}`}
                                     onClick={() => {
                                         handleOpen(false);
-                                        // const isDuplicate = selectedFood.some(item => item.nama === data.nama);
-                                        // if (!isDuplicate) {
-                                            setSelectedFood(data.nama);
-                                            setDataBenar(prev => ([...prev, { jenis: jenis, nama: data.nama }]));
-                                            onSelectedFoodChange(data.nama);
-                                        //     setInputValue("");
-                                        // } else {
-                                        //     alert("Data sudah ada dalam daftar!");
-                                        // }
+                                        setSelectedFood(data.nama);
+                                        setDataBenar(prev => ([...prev, { jenis: jenis, nama: data.nama }]));
+                                        onSelectedFoodChange(data.nama);
                                     }}
                                 >
                                     {data.nama}
