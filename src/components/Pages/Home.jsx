@@ -98,39 +98,9 @@ const Home = () => {
   }, []);
 
 
-  // Data untuk Line Chart
-  const dataline = {
-    labels: tanggal,
-    datasets: [
-      {
-        label: "Defisit Kalori",
-        data: rekap,
-        fill: false,
-        borderColor: "#0699AA",
-      },
-      {
-        label: "Kalori",
-        data: kalori,
-        fill: false,
-        borderColor: "#F54E29",
-      },
-    ],
-  };
+  
 
-  // Konfigurasi Chart dengan chart.js
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Progres Mingguan Anda',
-      },
-    },
-  };
+  
   return (
     <div className="flex bg-primary h-auto ">
       <Navbar />
@@ -168,9 +138,7 @@ const Home = () => {
             </div>
           </div>
           <div className="md:flex gap-20 md:gap-8 mt-16 md:mt-0 justify-center items-center ">
-            <div className="md:w-[52%] mx-10 z-20 md:ml-14 min-h-60 ">
-              <Line data={dataline} width={100} height={40} options={options} />
-            </div>
+            
             <div className="md:mr-16 z-20">
               <div
                 className="p-4 my-5 md:w-[240px] mx-6 h-[210px] bg-[#B5D5FE] shadow-gray-300 rounded-xl border border-[#0F2650]"

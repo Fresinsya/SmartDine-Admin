@@ -7,7 +7,7 @@ import { useMutation, useQuery } from 'react-query';
 import Sukses from '../elements/button/Sukses';
 
 const putProfile = async (id, profile) => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/admin/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -27,13 +27,8 @@ const EditProfile = ({ data }) => {
         password: '',
         confirmPassword: '',
         alamat: '',
-        usia: '',
         gender: '',
         telepon: '',
-        tinggiBadan: '',
-        beratBadan: '',
-        family_history: '',
-        kaloriHarian: ''
     });
 
     const id = localStorage.getItem('id')
@@ -42,6 +37,10 @@ const EditProfile = ({ data }) => {
     const { mutate, isPending } = useMutation({
         mutationKey: "updateProfile",
         mutationFn: () => putProfile(id, profile),
+        onSuccess: (data) => {
+            console.log(data)
+            window.location.reload()
+        }
     });
 
 
@@ -80,7 +79,7 @@ const EditProfile = ({ data }) => {
                         className="justify-center z-50 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none"
                     >
 
-                        <div className="relative w-2/3 my-6 mx-auto">
+                        <div className="relative w-3/4 my-6 mx-auto mt-52">
                             {/*content*/}
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 {/*header*/}
@@ -91,12 +90,12 @@ const EditProfile = ({ data }) => {
                                 </div>
                                 <div>
                                     <form>
-                                        <div className="grid gap-6 mb-3 md:grid-cols-4 px-6 pt-4">
+                                        <div className="grid gap-6 mb-3 md:grid-cols-2 px-6 pt-4">
                                             <Input title='Nama' name='nama' value={profile ? profile.nama : ""} onChange={handleChange} type='text' id='nama' placeholder='Anastasia' />
-                                            <Input title='Usia' name='usia' value={profile ? profile.usia : ""} onChange={handleChange} type='number' id='usia' placeholder='34' />
+                                            {/* <Input title='Usia' name='usia' value={profile ? profile.usia : ""} onChange={handleChange} type='number' id='usia' placeholder='34' /> */}
                                             <Input title='No. Handphone' name='telepon' value={profile ? profile.telepon : ""} onChange={handleChange} type='tel' id='phone' placeholder='089525272397' />
-                                            <Input title='Tinggi Badan' name='tinggiBadan' value={profile ? profile.tinggiBadan : ""} onChange={handleChange} type='text' id='tinggi' placeholder='164' />
-                                            <Input title='Berat Badan' name='beratBadan' value={profile ? profile.beratBadan : ""} onChange={handleChange} type='text' id='berat' placeholder='78' />
+                                            {/* <Input title='Tinggi Badan' name='tinggiBadan' value={profile ? profile.tinggiBadan : ""} onChange={handleChange} type='text' id='tinggi' placeholder='164' /> */}
+                                            {/* <Input title='Berat Badan' name='beratBadan' value={profile ? profile.beratBadan : ""} onChange={handleChange} type='text' id='berat' placeholder='78' /> */}
                                             <Input title='address' name='alamat' value={profile ? profile.alamat : ""} onChange={handleChange} type='text' id='alamat' placeholder='Surabaya, Jawa Timur' />
 
                                             <Dropdown id='jenisKelamin' name='gender' title='Jenis Kelamin' value={profile ? profile.gender : ""} onChange={handleChange}>
@@ -105,11 +104,11 @@ const EditProfile = ({ data }) => {
                                                 <option value="1">Laki-laki</option>
                                             </Dropdown>
 
-                                            <Dropdown id='Family_history' title='Histori Keluarga Obesitas' name='family_history' value={profile ? profile.family_history : ""} onChange={handleChange}>
+                                            {/* <Dropdown id='Family_history' title='Histori Keluarga Obesitas' name='family_history' value={profile ? profile.family_history : ""} onChange={handleChange}>
                                                 <option selected disabled >pilih history</option>
                                                 <option value="0">no</option>
                                                 <option value="1">yes</option>
-                                            </Dropdown>
+                                            </Dropdown> */}
                                             {/* <Dropdown id='smoke' title='Perokok'>
                                                 <option value="0">no</option>
                                                 <option value="1">yes</option>

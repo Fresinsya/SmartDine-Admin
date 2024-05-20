@@ -104,6 +104,8 @@ const Menu = ({ fotoMakanan }) => {
     },
     onSuccess: () => {
       console.log("sukses post menu ", menu)
+      window.location.href = "/";
+
     }
   })
 
@@ -116,7 +118,7 @@ const Menu = ({ fotoMakanan }) => {
 
 
   const handleNavClick = async () => {
-    if (menu.menu !== '' && menu.kalori_makanan !== '' ) {
+    if (menu.menu !== '' && menu.kalori_makanan !== '') {
       setShowNotificationSukses(true);
       // setShowModal(true);
       // setRedirecting(true);
@@ -157,7 +159,7 @@ const Menu = ({ fotoMakanan }) => {
     if (showNotificationSukses) {
       timeout = setTimeout(() => {
         setShowNotificationSukses(false);
-            window.location.href = "/meal";
+        // window.location.href = "/";
       }, 2000);
     }
 
@@ -178,20 +180,20 @@ const Menu = ({ fotoMakanan }) => {
   return (
     <div className="flex bg-primary h-auto overflow-x-hidden min-h-[500px]">
       <Navbar />
-      <div className="flex-grow bg-white relative ml-20 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
-        <div className="bg-white p-3 rounded-4xl flex-col justify-center">
+      <div className="flex-grow bg-white relative lg:ml-20 ml-14 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
+        <div className=" p-3 rounded-4xl flex-col justify-center">
           <h1 className="font-bold text-2xl ml-6 mb-3">Create Menu</h1>
           {/* <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div> */}
           {/* <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div> */}
           <div className='flex justify-end gap-3 mr-16 mt-4 mb-6'>
-            <button type="button" onClick={() => handleNavClick(isLogin ? "/meal" : "/login")} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
+            <button type="button" onClick={() => handleNavClick(isLogin ? "/" : "/login")} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
               Create Menu
             </button>
           </div>
           <div className='z-20'>
             <PotoProfile data={menu} imgBaru={imgBaru} setImgBaru={setImgBaru} updateMenuAvatar={updateMenuAvatar} />
             <div className='flex justify-center items-center'>
-              <img id='preview-img' src={fotoMakanan || imgBaru} alt="" className='w-40 h-40 rounded-2xl' /> {/* Menggunakan nilai imgBaru di sini */}
+              <img id='preview-img' src={fotoMakanan ? fotoMakanan : (imgBaru ? imgBaru : "https://res.cloudinary.com/dd8tyaph2/image/upload/v1711198057/piring_gbndqt.jpg")} alt="" className='w-40 h-40 rounded-2xl' />
             </div>
           </div>
           {/*  */}
@@ -213,12 +215,33 @@ const Menu = ({ fotoMakanan }) => {
                   />
                 </div>
               </div>
+              {/* <div className="sm:col-span-4">
+                <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+                  Jenis makanan
+                </label>
+                <div className="mt-2 w-96">
+                  <Dropdown
+                    id="jenis_bahan"
+                    name="jenis_bahan"
+                    onChange={handleChangeMenu}
+                    value={menu.jenis_bahan || ''}
+                  >
+                    <option selected disabled value="" >Select Jenis Bahan</option>
+                    <option value="pokok">Makanan pokok</option>
+                    <option value="lauk">Lauk pauk</option>
+                    <option value="buah">Buah</option>
+                    <option value="sayuran">Sayuran</option>
+                    <option value="pelengkap">Bumbu Masak</option>
+                    <option value="lainnya">Lainnya</option>
+                  </Dropdown>
+                </div>
+              </div> */}
 
               <div className="sm:col-span-3">
                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Kalori menu</label>
                 <div class="relative mt-2 rounded-md shadow-sm w-full">
 
-                  <input type="text" onChange={handleChangeMenu} name="kalori_makanan" id="kalori_makanan" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
+                  <input type="text" onChange={handleChangeMenu} name="kalori_makanan" id="kalori_makanan" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
                   <div class="absolute inset-y-0 right-0 flex items-center">
                     <p className='h-full mt-4 rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm'>Kkal</p>
 
@@ -229,7 +252,7 @@ const Menu = ({ fotoMakanan }) => {
                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Takaran</label>
                 <div class="relative mt-2 rounded-md shadow-sm w-full">
 
-                  <input type="text" onChange={handleChangeMenu} name="berat_makanan" id="berat_makanan" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
+                  <input type="text" onChange={handleChangeMenu} name="berat_makanan" id="berat_makanan" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
                   <div class="absolute inset-y-0 right-0 flex items-center">
                     <p className='h-full mt-4 rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm'>Gram</p>
                   </div>
@@ -279,25 +302,33 @@ const Menu = ({ fotoMakanan }) => {
                           id={`nama_${index}`}
                           name={`nama_${index}`}
                           onChange={(e) => handleChangeBahan(e, index)}
-                          value={bahan[index]?.nama || ''} // Accessing the nama property directly
-                          className="mx-4 block w-[85%] rounded-md border-0 p-2.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          value={bahan[index]?.nama || ''}
+                          className="mx-4 block w-full rounded-md border-0 p-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           placeholder="Kecap manis"
                         />
                       </td>
-                      <td className='z-20 my-4 w-1/3'>
-                        <Dropdown
-                          id={`jenis_${index}`}
-                          name={`jenis`}
-                          onChange={(e) => handleChangeBahan(e, index)}
-                          value={bahan[index]?.jenis || ''}
-                        >
-                          <option selected disabled value="" >Select Jenis Bahan</option>
-                          <option value="pokok">Makanan pokok</option>
-                          <option value="lauk">Lauk pauk</option>
-                          <option value="buah">Buah</option>
-                          <option value="sayuran">Sayuran</option>
-                          <option value="lainnya">Lainnya</option>
-                        </Dropdown>
+                      <td className='z-20 my-4 w-1/4'>
+                        {index === 0 ? ( // Hanya tampilkan dropdown pada baris pertama
+                          <select
+                            id={`jenis_${index}`}
+                            name={`jenis`}
+                            onChange={(e) => handleChangeBahan(e, index)}
+                            value={bahan[index]?.jenis || ''}
+                            // id="jenis_bahan"
+                            // name="jenis_bahan"
+                            // onChange={handleChangeMenu}
+                            // value={menu.jenis_bahan || ''}
+                            className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          >
+                            <option selected disabled value="">Select Jenis Bahan</option>
+                            <option value="pokok">Makanan pokok</option>
+                            <option value="lauk">Lauk pauk</option>
+                            <option value="buah">Buah</option>
+                            <option value="sayuran">Sayuran</option>
+                            <option value="pelengkap">Bumbu Masak</option>
+                            <option value="lainnya">Lainnya</option>
+                          </select>
+                        ) : null}
                       </td>
 
                       <td className='flex z-20  items-center justify-center my-4'>
@@ -307,7 +338,7 @@ const Menu = ({ fotoMakanan }) => {
                           name={`jumlah_${index}`}
                           onChange={(e) => handleChangeBahan(e, index)}
                           value={bahan[index]?.jumlah || ''}
-                          className="mx-4 block w-[85%] rounded-md border-0 p-2.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          className="mx-4 block w-[85%] rounded-md border-0 p-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           placeholder="1 sendok makan"
                         />
                       </td>

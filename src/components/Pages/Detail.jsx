@@ -20,7 +20,7 @@ const Detail = () => {
   const [filteredMenu, setFilteredMenu] = useState(null);
   const [bahan, setBahan] = useState([]);
 
-  
+
 
 
   const { isLoading, isError, data } = useQuery(
@@ -50,12 +50,12 @@ const Detail = () => {
     <>
       <div className="flex bg-primary h-auto overflow-x-hidden">
         <Navbar />
-        <div className="flex-grow bg-white relative ml-20 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
+        <div className="flex-grow bg-white relative lg:ml-20 ml-14 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
           <div className="bg-white p-3 rounded-4xl flex-col justify-center min-h-screen">
             <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div>
             <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div>
             <div className='flex'>
-              <a href="/meal" className='z-20 flex'><IoIosArrowBack className="flex text-3xl text-primary ml-3 mt-3" />
+              <a href="/" className='z-20 flex'><IoIosArrowBack className="flex text-3xl text-primary ml-3 mt-3" />
                 <p className="font-bold text-sm flex justify-center mt-4 text-primary">back</p>
               </a>
             </div>
@@ -64,7 +64,10 @@ const Detail = () => {
               {avatarUrl && <img src={avatarUrl} alt="" className='w-[30%] min-h-[500px] rounded-l-3xl ml-3 ' />}
               {/* <img src='nasgor.jpg' alt="" className='w-[30%] h-auto rounded-l-3xl ml-3' /> */}
               <div className='mx-4'>
-                <p className='font-bold text-lg border border-primary w-fit px-3 rounded-lg mb-3'>{filteredMenu ? "Kalori : " + filteredMenu.kalori_makanan + " kkal" : ''}</p>
+                <div className='flex gap-4'>
+                  <p className='font-bold text-lg border border-primary w-fit px-3 rounded-lg mb-3'>{filteredMenu ? "Kalori : " + filteredMenu.kalori_makanan + " kkal" : ''}</p>
+                  <p className='font-bold text-lg border border-primary w-fit px-3 rounded-lg mb-3'>{filteredMenu ? "Takaran : " + filteredMenu.berat_makanan + " gram" : ''}</p>
+                </div>
                 <p className='font-bold text-lg'>Bahan:</p>
                 <ul style={{ listStyleType: 'disc' }} className='grid md:grid-cols-2 ml-8'>
                   {bahan.map((item, index) => (

@@ -5,7 +5,7 @@ import { FaFileImage } from "react-icons/fa6";
 import { useMutation } from 'react-query';
 
 const postGambar = async (image, id) => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/editProfile/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_VERCEL_URL}/editProfile/admin/${id}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -58,13 +58,16 @@ const PotoProfile = ({ data }) => {
     });
 
     const uploadGambar = async (e) => {
-        mutate()
-        setShowModal(false)
+        mutate();
+        setShowModal(false);
+        // Tambahkan reload otomatis
+        // window.location.reload();
+
     }
 
     return (
         <>
-            <button className='bg-primary p-3 z-20 rounded-full ml-40 absolute bottom-24'
+            <button className='bg-primary p-3 z-20 rounded-full ml-40 bottom-64'
                 type="button"
                 onClick={() => setShowModal(true)}
             >

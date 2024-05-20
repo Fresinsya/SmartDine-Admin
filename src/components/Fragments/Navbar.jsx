@@ -50,7 +50,8 @@ const Navbar = () => {
     }, [showNotification, redirecting]);
 
     useEffect(() => {
-        localStorage.setItem("activeNav", activeNav);
+        const defaultNav = activeNav || "/meal";
+    localStorage.setItem("activeNav", defaultNav);
     }, [activeNav]);
 
     // Fungsi untuk menangani klik pada navbar
@@ -60,27 +61,25 @@ const Navbar = () => {
 
     return (
         <nav>
-            <div className="w-20 h-screen text-white fixed flex flex-col justify-evenly items-center">
+            <div className="w-14 md:w-20 h-screen text-white fixed flex flex-col justify-evenly items-center">
                 <div className="h-[15%] flex flex-col justify-center">
                     <a
                         href="#"
                         onClick={() => handleNavClick("#")} // Fixed missing parentheses
                         className={`flex items-center space-x-2 ${activeNav === "#" ? "border-2 p-2 border-[#B5D5FE] rounded-2xl" : ""}`}
-
-
                     >
                         <TiThMenu size={20} />
                     </a>
                 </div>
                 <div className="h-[50%] flex flex-col justify-center items-center gap-12">
-                    <a
+                    {/* <a
                         href="/"
                         onClick={() => handleNavClick("/")}
                         // Menambahkan kelas "border border-white" jika activeNav adalah "/"
                         className={`flex items-center space-x-2 ${activeNav === "/" ? "border-2 p-2 border-[#B5D5FE] rounded-2xl" : ""}`}
                     >
                         <GoHomeFill size={20} />
-                    </a>
+                    </a> */}
                     {/* <a
                         href="/menu"
                         onClick={() => handleNavClick("/menu")}
@@ -90,9 +89,9 @@ const Navbar = () => {
                         <FiShoppingBag size={20} />
                     </a> */}
                     <a
-                        href="/meal"
-                        onClick={() => handleNavClick("/meal")}
-                        className={`flex items-center space-x-2 ${activeNav === "/meal" ? "border-2 p-2 border-[#B5D5FE] rounded-2xl" : ""}`}
+                        href="/"
+                        onClick={() => handleNavClick("/")}
+                        className={`flex items-center space-x-2 ${activeNav === "/" ? "border-2 p-2 border-[#B5D5FE] rounded-2xl" : ""}`}
                     >
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -100,16 +99,17 @@ const Navbar = () => {
                         </svg>
 
                     </a>
-                    <a
+                    {/* <a
                         href="/quiz"
                         onClick={() => handleNavClick("/quiz")}
                         className={`flex items-center space-x-2 ${activeNav === "/quiz" ? "border-2 p-2 border-[#B5D5FE] rounded-2xl" : ""}`}
 
                     >
                         <MdQuiz size={20} />
-                    </a>
+                    </a> */}
                 </div>
                 <div className="h-[40%] flex flex-col justify-center gap-7">
+                    
                     <a
                         href="/profile"
                         onClick={() => handleNavClick("/profile")}
@@ -161,9 +161,9 @@ const Navbar = () => {
                                 <a href="/menu" onClick={() => setActiveNav("/menu")} className={activeNav === "/menu" ? "active" : ""}>
                                     Menu
                                 </a>
-                                <a href="/quiz" onClick={() => setActiveNav("/quiz")} className={activeNav === "/quiz" ? "active" : ""}>
+                                {/* <a href="/quiz" onClick={() => setActiveNav("/quiz")} className={activeNav === "/quiz" ? "active" : ""}>
                                     Quiz
-                                </a>
+                                </a> */}
                                 <a href="/profile" onClick={() => setActiveNav("/profile")} className={activeNav === "/profile" ? "active" : ""}>
                                     Profile
                                 </a>

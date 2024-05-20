@@ -59,7 +59,7 @@ const EditMenu = () => {
 
 
 
-  // console.log(filteredMenu.menu)
+  // console.log(filteredMenu.kalori_makanan)
 
   const [menu, setMenu] = useState({
     menu: '',
@@ -112,6 +112,10 @@ const EditMenu = () => {
     }
   }, [filteredMenu]);
 
+  // console.log(
+  //   "menu:", menu
+  // )
+
   useEffect(() => {
     setMenu((prevMenu) => ({
       ...prevMenu,
@@ -153,17 +157,18 @@ const EditMenu = () => {
     mutationFn: () => putMenu(idMenu, menu),
     onSuccess: () => {
       console.log("Data berhasil disimpan ke dalam database");
+      window.location.href = "/";
     },
   });
 
-  console.log(idMenu)
+  // console.log(idMenu)
 
   const handleChangeMenu = (event) => {
     const { name, value } = event.target;
-    setMenu({
-      ...menu,
+    setMenu(prevMenu => ({
+      ...prevMenu,
       [name]: value
-    });
+    }));
   }
 
 
@@ -205,14 +210,13 @@ const EditMenu = () => {
 
 
 
-  console.log(menu)
 
   useEffect(() => {
     let timeout;
     if (showNotificationSukses) {
       timeout = setTimeout(() => {
         setShowNotificationSukses(false);
-        window.location.href = "/meal";
+        // window.location.href = "/";
       }, 1000);
     }
 
@@ -235,13 +239,13 @@ const EditMenu = () => {
     <>
       <div className="flex bg-primary h-auto overflow-x-hidden min-h-[500px]">
         <Navbar />
-        <div className="flex-grow bg-white relative ml-20 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
+        <div className="flex-grow bg-white relative lg:ml-20 ml-14 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
           <div className="bg-white p-3 rounded-4xl flex-col justify-center">
-            <h1 className="font-bold text-2xl ml-6 mb-3">Create Menu</h1>
+            <h1 className="font-bold text-2xl ml-6 mb-3">Edit Menu</h1>
             {/* <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div> */}
             {/* <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed z-20 top-4 right-4 rounded-2xl"></div> */}
             <div className='flex justify-end gap-3 mr-16 mt-4 mb-6'>
-              <button type="button" onClick={() => handleNavClick(isLogin ? "/meal" : "/login")} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
+              <button type="button" onClick={() => handleNavClick(isLogin ? "/" : "/login")} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
                 Create Menu
               </button>
             </div>
@@ -264,7 +268,7 @@ const EditMenu = () => {
                       type="text"
                       name="menu"
                       id="menu"
-                      value={filteredMenu ? filteredMenu.menu : ''}
+                      value={menu.menu}
                       autoComplete="given-name"
                       placeholder='Nasi Goreng'
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -276,7 +280,7 @@ const EditMenu = () => {
                   <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Kalori menu</label>
                   <div class="relative mt-2 rounded-md shadow-sm w-full">
 
-                    <input type="text" onChange={handleChangeMenu} value={filteredMenu ? filteredMenu.kalori_makanan : ''} name="kalori_makanan" id="kalori_makanan" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
+                    <input type="text" onChange={handleChangeMenu} value={menu.kalori_makanan} name="kalori_makanan" id="kalori_makanan" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
                     <div class="absolute inset-y-0 right-0 flex items-center">
                       <p className='h-full mt-4 rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm'>Kkal</p>
 
@@ -287,7 +291,7 @@ const EditMenu = () => {
                   <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Takaran</label>
                   <div class="relative mt-2 rounded-md shadow-sm w-full">
 
-                    <input type="text" onChange={handleChangeMenu} value={filteredMenu ? filteredMenu.berat_makanan : ''} name="berat_makanan" id="berat_makanan" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
+                    <input type="text" onChange={handleChangeMenu} value={menu.berat_makanan} name="berat_makanan" id="berat_makanan" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="400" />
                     <div class="absolute inset-y-0 right-0 flex items-center">
                       <p className='h-full mt-4 rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm'>Gram</p>
                     </div>
@@ -346,7 +350,7 @@ const EditMenu = () => {
                             placeholder="Kecap manis"
                           />
                         </td>
-                        <td className='z-20 my-4 w-1/3'>
+                        <td className='z-20 my-4 w-1/4'>
                           <Dropdown
                             id={`jenis_${index}`}
                             name="jenis"
@@ -356,9 +360,10 @@ const EditMenu = () => {
                             <option selected disabled value="" >Select Jenis Bahan</option>
                             <option value="pokok">Makanan pokok</option>
                             <option value="lauk">Lauk pauk</option>
-                            <option value="buah">Buah</option>
+                            {/* <option value="buah">Buah</option> */}
                             <option value="sayuran">Sayuran</option>
-                            <option value="lainnya">Lainnya</option>
+                            {/* <option value="pelengkap">Bumbu Masak</option>
+                            <option value="lainnya">Lainnya</option> */}
                           </Dropdown>
                         </td>
 

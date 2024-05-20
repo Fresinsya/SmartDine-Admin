@@ -24,10 +24,10 @@ function App() {
       <div>
         <QueryClientProvider client={queryClient}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/menu" element={<Menu />} />
-            <Route path="/meal" element={<Meal />} />
-            <Route path="/detail" element={<Detail />} />
+            <Route path="/" element={<Meal />} />
+            {/* <Route path="/detail" element={<Detail />} /> */}
             <Route path="/detail/:idDetail" element={<Detail />} />
             <Route path="/editMenu/:idMenu" element={<EditMenu />} />
             <Route path="/profile" element={<Profile />} />

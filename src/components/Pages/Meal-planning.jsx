@@ -46,7 +46,7 @@ const Meal = () => {
     const [selectedDay, setSelectedDay] = useState("1");
     const [menu, setMenu] = useState([]);
     // const [filteredMenu, setFilteredMenu] = useState([]);
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState("false");
     const [searchTerm, setSearchTerm] = useState('');
 
     // tabel
@@ -54,11 +54,21 @@ const Meal = () => {
     //     setText(event.target.value);
     // };
 
+    useEffect(() => {
+        const login = localStorage.getItem('isLogin');
+        setIsLogin(login);
+    }, [isLogin]);
+    
+
     const handleAddRow = () => {
         // const newRow = { id: rows.length + 1 };
         // setRows([...rows, newRow]);
+        // if (isLogin === true) {
+            window.location.href = '/menu';
+        // } else {
+        //     window.location.href = '/login';
+        // }
 
-        window.location.href = '/menu';
 
         // Tambahkan objek bahan baru ke dalam state bahan
         // setBahan([...bahan, { nama: '', jenis: '', jumlah: '' }]);
@@ -133,7 +143,11 @@ const Meal = () => {
 
     const handleDetailMenu = async (id) => {
         try {
-            window.location.href = `/detail/${id}`;
+            if (isLogin === true) {
+                window.location.href = `/detail/${id}`;
+            } else {
+                window.location.href = '/login';
+            }
         } catch (error) {
             // Tangani kesalahan jika diperlukan
             console.error('Terjadi kesalahan saat melakukan read menu:', error);
@@ -142,7 +156,11 @@ const Meal = () => {
 
     const handleEditMenu = async (id) => {
         try {
-            window.location.href = `/editMenu/${id}`;
+            if (isLogin === true) {
+                window.location.href = `/editMenu/${id}`;
+            } else {
+                window.location.href = '/login';
+            }
         } catch (error) {
             // Tangani kesalahan jika diperlukan
             console.error('Terjadi kesalahan saat melakukan read menu:', error);
@@ -158,25 +176,25 @@ const Meal = () => {
     );
 
     return (
-        <div className="flex bg-primary h-auto overflow-x-hidden min-h-[750px]">
+        <div className="flex bg-primary h-screen overflow-x-hidden overflow-y-auto min-h-[750px]">
             <Navbar />
-            <div className="flex-grow bg-white relative ml-20 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
-                <div className="bg-white p-3 rounded-4xl flex-col justify-center">
-                    <h1 className="font-bold text-2xl ml-6 ">Meal-Planning</h1>
+            <div className="flex-grow bg-white h-fit min-h-full relative lg:ml-20 ml-14 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
+                <div className=" p-3 rounded-4xl flex-col justify-center">
+                    <h1 className="font-bold text-2xl md:ml-6 ml-1 ">Daftar Menu</h1>
                     {/* <div className="w-[calc(100%-4rem)] h-full bg-transparent border-[21px] border-primary fixed z-20 top-0 right-0"></div> */}
                     {/* <div className="w-[calc(100%-6rem)] h-[95%] bg-transparent border-[16px] border-white fixed -z-10 top-4 right-4 rounded-2xl"></div> */}
-                    <div className='flex justify-end gap-3 mr-16 mt-4 mb-6'>
-                        <button type="button" onClick={() => handleAddRow(isLogin ? "/menu" : "/login")} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
+                    <div className='flex justify-end gap-3 md:mr-16 mt-4 mb-6'>
+                        <button type="button" onClick={() => handleAddRow()} className='bg-primary flex items-center gap-2 hover:border-blue-400 active:border border-4 text-white z-30 font-bold text-sm px-8 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'>
                             Create Menu
                         </button>
                     </div>
-                    <div className='flex ml-32'>
+                    <div className='flex md:ml-32 ml-2'>
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={handleSearchChange}
                             placeholder="Search menu..."
-                            className="block w-1/4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block md:w-1/4 w-2/4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                     </div>
                     <div className='flex justify-center my-10'>
@@ -192,17 +210,17 @@ const Meal = () => {
                             <tbody>
                                 {filteredMenu.map((item, index) => (
                                     <tr key={index}>
-                                        <td id='' className=' flex items-center z-20 justify-center my-4'>
-                                           <button type='button' className='hover:border-b-primary hover:rounded-lg hover:px-3 hover:border-x-transparent hover:border-t-transparent hover:border' onClick={() => handleDetailMenu(item._id)}>{item.menu || ''}</button> 
+                                        <td id='' className=' flex items-center z-20 justify-center my-4 '>
+                                            <button type='button' className='hover:border-b-primary hover:rounded-lg hover:px-3 hover:border-x-transparent hover:border-t-transparent hover:border' onClick={() => handleDetailMenu(item._id)}>{item.menu || ''}</button>
                                         </td>
-                                        <td className='my-4 w-1/4'>
+                                        <td className='my-4 w-2/4 md:w-1/4  mx-1'>
                                             {item.kalori_makanan + " Kkal" || ''}
                                         </td>
-                                        <td className='my-4 w-1/4'>
+                                        <td className='my-4 w-2/4 md:w-1/4 mx-1'>
                                             {item.berat_makanan + " gram" || ''}
                                         </td>
-                                        <td className='z-20'>
-                                            <div className='flex justify-center items-center mx-6'>
+                                        <td className='z-20 w-1/5'>
+                                            <div className='md:flex grid justify-center items-center md:mx-6 mx-1'>
                                                 <button className=' text-white p-2 rounded-lg ' type='button' onClick={() => handleDelete(item._id)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-primary z-50">
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />

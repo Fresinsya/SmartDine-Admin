@@ -95,8 +95,8 @@ const PotoMenu = ({ imgBaru, setImgBaru, updateMenuAvatar, avatar }) => {
                                 </div>
                                 <div className='my-3'>
                                     <div className='flex justify-center'>
-                                        <img id='imgBaru' src={imgBaru || avatar} alt="" className='w-20 h-20 rounded-full' />
-                                        
+                                        <img id='imgBaru' src={(imgBaru || avatar) || 'https://res.cloudinary.com/dd8tyaph2/image/upload/v1711198057/piring_gbndqt.jpg'} alt="" className='w-20 h-20 rounded-full' />
+
                                     </div>
                                     <div className='flex justify-center mt-3 mb-2'>
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Image</label>
