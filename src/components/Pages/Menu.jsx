@@ -13,6 +13,7 @@ import { useMutation } from 'react-query';
 import PotoProfile from '../Fragments/PotoProfile';
 import PotoMenu from '../Fragments/PotoMenu';
 import Loading from '../Fragments/Loading';
+import { CgDanger } from 'react-icons/cg';
 
 
 const postMenu = async (menu) => {
