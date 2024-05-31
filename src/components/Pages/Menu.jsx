@@ -555,7 +555,7 @@ const Menu = ({ fotoMakanan }) => {
             <div className="flex fixed items-center z-50 top-5 right-[400px] p-4 mb-4 text-sm text-white border border-red-500 rounded-full bg-red-500 dark:bg-gray-800 dark:text-white dark:border-red-500" role="alert">
               <CgDanger className='text-2xl m-2' />
               <div>
-                <span className="font-medium m-2">Silahkan login atau cek Meal-planning.</span>
+                <span className="font-medium m-2">Silahkan login atau cek inputan nama menu, kalori dan porsi makanan.</span>
               </div>
             </div>
           )

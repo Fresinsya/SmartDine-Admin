@@ -8,6 +8,7 @@ import Dropdown from '../elements/input/Dropdown';
 import { CgDanger } from "react-icons/cg";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import PotoMenu from '../Fragments/PotoMenu';
+import Loading from '../Fragments/Loading';
 
 const putMenu = async (id, menu) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/menu/${id}`, {
@@ -45,17 +46,17 @@ const EditMenu = () => {
   const [image, setImage] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
 
-  const { data: dataMenu, isLoading, isError } = useQuery({
+  const { data: dataMenu, isLoading: isLoadingMenu, isError } = useQuery({
     queryKey: ["menu", idMenu],
     queryFn: () => getMenu(idMenu),
   });
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoadingMenu) {
       setFilteredMenu(dataMenu.data);
 
     }
-  }, [dataMenu, isLoading]);
+  }, [dataMenu, isLoadingMenu]);
 
 
 
@@ -152,7 +153,7 @@ const EditMenu = () => {
   };
 
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isLoading } = useMutation({
     mutationKey: ["updateMenu", idMenu],
     mutationFn: () => putMenu(idMenu, menu),
     onSuccess: () => {
@@ -237,6 +238,7 @@ const EditMenu = () => {
 
   return (
     <>
+    {isLoading && <Loading />}
       <div className="flex bg-primary h-auto overflow-x-hidden min-h-[500px]">
         <Navbar />
         <div className="flex-grow bg-white relative lg:ml-20 ml-14 mt-[17px] mx-4 mb-[17px] pb-4 pt-4 rounded-2xl">
