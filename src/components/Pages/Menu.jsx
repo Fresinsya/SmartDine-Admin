@@ -16,7 +16,7 @@ import Loading from '../Fragments/Loading';
 
 
 const postMenu = async (menu) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/menu`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_VERCEL_URL}/menu`, {
     method: 'POST',
     body: JSON.stringify(menu),
     headers: {
