@@ -11,7 +11,7 @@ import PotoMenu from '../Fragments/PotoMenu';
 import Loading from '../Fragments/Loading';
 
 const putMenu = async (id, menu) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/menu/${id}`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_VERCEL_URL}/menu/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
