@@ -498,10 +498,10 @@ const Menu = ({ fotoMakanan }) => {
                               <option selected disabled value="">Select Jenis Bahan</option>
                               <option value="pokok">Makanan pokok</option>
                               <option value="lauk">Lauk pauk</option>
-                              <option value="buah">Buah</option>
+                              {/* <option value="buah">Buah</option> */}
                               <option value="sayuran">Sayuran</option>
-                              <option value="pelengkap">Bumbu Masak</option>
-                              <option value="lainnya">Lainnya</option>
+                              {/* <option value="pelengkap">Bumbu Masak</option>
+                              <option value="lainnya">Lainnya</option> */}
                             </select>
                           ) : null}
                         </td>
